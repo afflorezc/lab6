@@ -34,13 +34,13 @@
             this.jug1Label = new System.Windows.Forms.Label();
             this.jug2Label = new System.Windows.Forms.Label();
             this.Jug1Puntaje = new System.Windows.Forms.Label();
+            this.jug2Puntaje = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.nuevoJuegoBtn = new System.Windows.Forms.Button();
             this.confBtn = new System.Windows.Forms.Button();
             this.puntajesGridView = new System.Windows.Forms.DataGridView();
-            this.jug2Puntaje = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -143,6 +143,19 @@
             this.Jug1Puntaje.Text = "Puntaje: ";
             this.Jug1Puntaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // jug2Puntaje
+            // 
+            this.jug2Puntaje.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.jug2Puntaje.AutoSize = true;
+            this.jug2Puntaje.Location = new System.Drawing.Point(171, 32);
+            this.jug2Puntaje.Name = "jug2Puntaje";
+            this.jug2Puntaje.Size = new System.Drawing.Size(163, 32);
+            this.jug2Puntaje.TabIndex = 3;
+            this.jug2Puntaje.Text = "Puntaje:";
+            this.jug2Puntaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -214,6 +227,7 @@
             this.nuevoJuegoBtn.TabIndex = 0;
             this.nuevoJuegoBtn.Text = "Nuevo Juego";
             this.nuevoJuegoBtn.UseVisualStyleBackColor = true;
+            this.nuevoJuegoBtn.Click += new System.EventHandler(this.nuevoJuegoBtn_Click);
             // 
             // confBtn
             // 
@@ -235,19 +249,6 @@
             this.puntajesGridView.Name = "puntajesGridView";
             this.puntajesGridView.Size = new System.Drawing.Size(269, 219);
             this.puntajesGridView.TabIndex = 1;
-            // 
-            // jug2Puntaje
-            // 
-            this.jug2Puntaje.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.jug2Puntaje.AutoSize = true;
-            this.jug2Puntaje.Location = new System.Drawing.Point(171, 32);
-            this.jug2Puntaje.Name = "jug2Puntaje";
-            this.jug2Puntaje.Size = new System.Drawing.Size(163, 32);
-            this.jug2Puntaje.TabIndex = 3;
-            this.jug2Puntaje.Text = "Puntaje:";
-            this.jug2Puntaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // JuegoPpal
             // 

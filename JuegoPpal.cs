@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Lab6_Ajedrez
 {
@@ -14,6 +15,13 @@ namespace Lab6_Ajedrez
     {
         OperBasicas operBas;
         const String nombreArchivo = "Puntajes.txt";
+        Tablero tableroJuego;
+        bool juegoActivo = false;
+        Jugador jugadorUno;
+        Jugador jugadorDos;
+        Color turnoActual = Color.Blanco;
+        PosicionMatriz fichaSeleccionada;
+        PictureBox[,] matPictureBox;
 
         /*
          * Método de inicialización del objeto de tipo formulario principal.
@@ -29,6 +37,7 @@ namespace Lab6_Ajedrez
             {
                 cargarPuntajes();
             }
+            
 
         }
 
@@ -124,8 +133,71 @@ namespace Lab6_Ajedrez
                 guardarArchivo();
             }
         }
+        /*
+         * Método que da inicio a un nuevo juego, se abre un input box que solicita los
+         * nombres de los dos jugadores que se enfrentaran en una partida, luego asigna
+         * el color de fichas para cada uno de los jugadores e inicializa un objeto de tipo
+         * tablero y se muestra en pantalla
+         */
+        private void nuevoJuegoBtn_Click(object sender, EventArgs e)
+        {
+            // Si hay un juego en curso se pregunta si desea finalizar, en dicho caso no se
+            // registra ningún puntaje pues la partida no ha terminado satisfactoriamente en 
+            // un jaque mate por parte de alguno de los oponentes
+            if (juegoActivo)
+            {
+                DialogResult decision = new DialogResult();
+                decision = operBas.mensajeDesicion("Terminar juego", "En este momento" +
+                    " hay un juego en curso. ¿Desea finalizar este juego e iniciar otro?");
+                if (decision == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            // Se abre ventana tipo InputBox para ingresar el nombre del Jugador
+            // en el inputForm se crean las variables de tipo jugador y se inicializan 
+            // su puntaje al igual que el color asignado para la partida (este se hace de
+            // manera aleatoria)
+            if (true) //result == DialogResult.OK)
+            {
+                // se activa un juego nuevo
+                juegoActivo = true;
+                jug1Label.Text = $"Jugador 1: {jugadorUno.nombre}";
+                jug2Label.Text = $"Jugador 2: {jugadorDos.nombre}";
+                Jug1Puntaje.Text = $"Puntaje: {jugadorUno.puntajePartida}";
+                jug2Puntaje.Text = $"Puntaje: {jugadorDos.puntajePartida}";
+                // Se inicializa la ficha seleccionad en matriz con un valor equivalente al
+                // "vacio" (no fichas seleccionadas)
+                fichaSeleccionada = new PosicionMatriz(-1, -1);
+                
+                tableroJuego = new Tablero();
+                pintarTablero();
+            }
+        }
 
+        /*
+        * Método que inicializa el tablero de juego de acuerdo a la matriz del objeto
+        * tipo tablero al asignar valores a una matriz de objetos tipo PictureBox
+        * que dibujaran cada caramelo
+        */
+        public void pintarTablero()
+        {
 
+            //se inicializa la matriz de imágenes
+            matPictureBox = new PictureBox[8, 8];
+
+            // Creación y ubicación de cada una de las imagenes en cada celda (i, j)
+            // Del espacio (TableLayoutPanel) destinado para tal fin
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    //Image recurso = seleccionarRecursoCaramelo(tab.valores[i, j]);
+                    //asignarPicture(i, j, recurso);
+                }
+            }
+
+        }
     }
 
  
