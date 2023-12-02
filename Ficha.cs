@@ -53,8 +53,9 @@ namespace Lab6_Ajedrez
          * posibles que se han asignado a la ficha el par ordenado dado como parametro y retorna
          * true en caso que se encuentre en la lista y false en caso contrario
          */
-        public bool esMovimientoVal(ParOrdenado movimiento)
+        public virtual bool esMovimientoVal(ParOrdenado movimiento)
         {
+            // Se compara el movimiento con cada uno de los movimientos en la lista
             int n = movimientos.Count;
             if (n > 0)
             {
@@ -66,8 +67,8 @@ namespace Lab6_Ajedrez
                         return true;
                     }
                 }
-                return false;
             }
+            // Si ha llegado hasta aqui es porque no ha encontrado el movimiento en la lista
             return false;
         }
         /*
@@ -227,7 +228,7 @@ namespace Lab6_Ajedrez
     {
         // atributos adicionales para controlar la posibilidad del movimiento de
         // enroque con el rey
-        bool haMovido;
+        public bool haMovido;
 
         /*
          * El constructor es el mismo de la clase base Ficha
@@ -765,6 +766,9 @@ namespace Lab6_Ajedrez
         bool estadoEnJaque { get; set; }
         bool enJaque { get; set; }
         bool haMovido { get; set; }
+
+        // Se separa en un vector nuevo los posibles enroques. son solo dos
+        List<ParOrdenado> movEnroque { get; set; }
         /*
          * El constructor es el mismo de la clase base Ficha
          */
@@ -776,6 +780,281 @@ namespace Lab6_Ajedrez
             this.haMovido = false;
         }
         /*
+         * Métod de evaluacion de movimientos validos del rey, se sobrecarga pues se debe
+         * tener en cuenta la lista de movimientos del tipo enroque que se han separado
+         * en una lista aparte
+         */
+        public override bool esMovimientoVal(ParOrdenado movimiento)
+        {
+            // Se compara el movimiento con cada uno de los movimientos en la lista
+            int n = movimientos.Count;
+            if (n > 0)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    ParOrdenado parValido = movimientos[i];
+                    if (parValido.esIgual(movimiento))
+                    {
+                        return true;
+                    }
+                }
+            }
+            // Si no encontro en la lista de movimientos se examinan los movimientos de enroque
+            n = movEnroque.Count;
+            if(n > 0)
+            {
+                for(int i =0; i < n; i++)
+                {
+                    ParOrdenado parValido = movimientos[i];
+                    if (parValido.esIgual(movimiento))
+                    {
+                        return true;
+                    }
+                }
+            }
+            // Si ha llegado hasta aqui es porque el movimiento no se encuentra en ninguna lista
+            return false;
+        }
+
+        /*
+         * Método que agrega un movimiento de enroque identificado mediante los parametros
+         * de fila y columna de la nueva posicion del rey. El movimiento es agregado a la
+         * lista de enroques
+         */
+        public void agregarEnroque(int filaLleg, int colLleg)
+        {
+            PosicionMatriz lleg = new PosicionMatriz(filaLleg, colLleg);
+            ParOrdenado mov = new ParOrdenado(posicion, lleg);
+            // Se agrega a la lista
+            movEnroque.Add(mov);
+        }
+        
+        /*
+         * Método que comprueba si existen fichas contrarias controlando la posicion a la 
+         * que se pretende mover el Rey, buscando por la diagonal ascendente. Los parametros
+         * son la fila y columna de la posicion deseada y el tablero de juego actual
+         */
+        public bool jaqueDiagAsc(int fila, int col, Tablero tablero)
+        {
+            int filaPeon = fila - 1;
+            Color colFichaCont = Color.Negro;
+            if(this.color == Color.Negro)
+            {
+                filaPeon = fila + 1;
+                colFichaCont = Color.Blanco;
+            }
+            Ficha ficha = null;
+            // Comprueba si existe un peon que ataca la posicion dada
+            if(filaPeon>=0 && filaPeon < 8)
+            {
+                ficha = tablero.posiciones[filaPeon, col + 1].ficha;
+                if(ficha != null && ficha.tipo == TipoFicha.Peon && ficha.color == colFichaCont)
+                {
+                    return true;
+                }
+            }
+            // Si no hay peones, se busca un alfil o reina contrarios en dicha diagonal
+            // hacia arriba - derecha
+            while(fila >= 0 && col < 8 && ficha == null)
+            {
+                ficha = tablero.posiciones[fila - 1, col + 1].ficha;
+                fila--;
+                col++;
+            }
+            // Si al terminar el ciclo encontro alfil o reina contraria queda en jaque
+            if(ficha != null)
+            {
+                if(ficha.tipo == TipoFicha.Alfil || ficha.tipo == TipoFicha.Reina)
+                {
+                    return true;
+                }
+            }
+            // hacia abajo - izquieda
+            while (fila < 8 && col >= 0 && ficha == null)
+            {
+                ficha = tablero.posiciones[fila + 1, col - 1].ficha;
+                fila++;
+                col--;
+            }
+            // Si al terminar el ciclo encontro alfil o reina contraria queda en jaque
+            if (ficha != null)
+            {
+                if (ficha.tipo == TipoFicha.Alfil || ficha.tipo == TipoFicha.Reina)
+                {
+                    return true;
+                }
+            }
+            // Si ha llegado hasta aqui es que no encontro amenaza de jaque
+            return false;
+        }
+
+        /*
+         * Método que comprueba si existen fichas contrarias controlando la posicion a la 
+         * que se pretende mover el Rey, buscando por la diagonal ascendente. Los parametros
+         * son la fila y columna de la posicion deseada y el tablero de juego actual
+         */
+        public bool jaqueDiagDesc(int fila, int col, Tablero tablero)
+        {
+            int filaPeon = fila - 1;
+            Color colFichaCont = Color.Negro;
+            if (this.color == Color.Negro)
+            {
+                filaPeon = fila + 1;
+                colFichaCont = Color.Blanco;
+            }
+            Ficha ficha = null;
+            // Comprueba si existe un peon que ataca la posicion dada
+            if (filaPeon >= 0 && filaPeon < 8)
+            {
+                ficha = tablero.posiciones[filaPeon, col - 1].ficha;
+                if (ficha != null && ficha.tipo == TipoFicha.Peon && ficha.color == colFichaCont)
+                {
+                    return true;
+                }
+            }
+            // Si no hay peones, se busca un alfil o reina contrarios en dicha diagonal
+            // hacia abajo - derecha
+            while (fila < 8 && col < 8 && ficha == null)
+            {
+                ficha = tablero.posiciones[fila + 1, col + 1].ficha;
+                fila++;
+                col++;
+            }
+            // Si al terminar el ciclo encontro alfil o reina contraria queda en jaque
+            if (ficha != null)
+            {
+                if (ficha.tipo == TipoFicha.Alfil || ficha.tipo == TipoFicha.Reina)
+                {
+                    return true;
+                }
+            }
+            // hacia arriba - izquieda
+            while (fila >= 0 && col >= 0 && ficha == null)
+            {
+                ficha = tablero.posiciones[fila - 1, col - 1].ficha;
+                fila--;
+                col--;
+            }
+            // Si al terminar el ciclo encontro alfil o reina contraria queda en jaque
+            if (ficha != null)
+            {
+                if (ficha.tipo == TipoFicha.Alfil || ficha.tipo == TipoFicha.Reina)
+                {
+                    if(ficha.color == colFichaCont)
+                    {
+                        return true;
+                    } 
+                }
+            }
+            // Si ha llegado hasta aqui es que no encontro amenaza de jaque
+            return false;
+        }
+        /*
+        * Método que comprueba si existen fichas contrarias controlando la posicion a la 
+        * que se pretende mover el Rey, buscando horizontalmente. Los parametros
+        * son la fila y columna de la posicion deseada y el tablero de juego actual
+        */
+        public bool jaqueHorizontal(int fila, int col, Tablero tablero)
+        {
+            int auxCol = col;
+            Color colFichaCont = Color.Negro;
+            if(this.color == Color.Negro)
+            {
+                colFichaCont = Color.Blanco;
+            }
+            Ficha ficha = null;
+            // Se comprueba en direccion derecha
+            while(auxCol <8 && ficha == null)
+            {
+                ficha = tablero.posiciones[fila, auxCol + 1].ficha;
+                auxCol++;
+            }
+            // Se comprueba si la ficha encontrada es un rey o reina de color contrario
+            if(ficha != null)
+            {
+                if(ficha.tipo == TipoFicha.Torre || ficha.tipo== TipoFicha.Reina)
+                {
+                    if(ficha.color == colFichaCont)
+                    {
+                        return true;
+                    }
+                }
+            }
+            // Se comprueba en direccion izquieda
+            auxCol = col;
+            while (auxCol >= 0 && ficha == null)
+            {
+                ficha = tablero.posiciones[fila, auxCol - 1].ficha;
+                auxCol--;
+            }
+            // Se comprueba si la ficha encontrada es un rey o reina de color contrario
+            if (ficha != null)
+            {
+                if (ficha.tipo == TipoFicha.Torre || ficha.tipo == TipoFicha.Reina)
+                {
+                    if (ficha.color == colFichaCont)
+                    {
+                        return true;
+                    }
+                }
+            }
+            // Si llega hasta aqui no se ha topado con fichas contrarias amenazantes
+            return false;
+        }
+
+        /*
+        * Método que comprueba si existen fichas contrarias controlando la posicion a la 
+        * que se pretende mover el Rey, buscando horizontalmente. Los parametros
+        * son la fila y columna de la posicion deseada y el tablero de juego actual
+        */
+        public bool jaqueVertical(int fila, int col, Tablero tablero)
+        {
+            int auxFila = fila;
+            Color colFichaCont = Color.Negro;
+            if (this.color == Color.Negro)
+            {
+                colFichaCont = Color.Blanco;
+            }
+            Ficha ficha = null;
+            // Se comprueba hacia arriba
+            while (auxFila >= 0 && ficha == null)
+            {
+                ficha = tablero.posiciones[auxFila -1, col].ficha;
+                auxFila--;
+            }
+            // Se comprueba si la ficha encontrada es un rey o reina de color contrario
+            if (ficha != null)
+            {
+                if (ficha.tipo == TipoFicha.Torre || ficha.tipo == TipoFicha.Reina)
+                {
+                    if (ficha.color == colFichaCont)
+                    {
+                        return true;
+                    }
+                }
+            }
+            // Se comprueba hacia abajo
+            auxFila = fila;
+            while (auxFila < 8 && ficha == null)
+            {
+                ficha = tablero.posiciones[auxFila + 1, col].ficha;
+                auxFila++;
+            }
+            // Se comprueba si la ficha encontrada es un rey o reina de color contrario
+            if (ficha != null)
+            {
+                if (ficha.tipo == TipoFicha.Torre || ficha.tipo == TipoFicha.Reina)
+                {
+                    if (ficha.color == colFichaCont)
+                    {
+                        return true;
+                    }
+                }
+            }
+            // Si llega hasta aqui no se ha topado con fichas contrarias amenazantes
+            return false;
+        }
+        /*
          * Método que comprueba si al mover el rey en la posicion marcada por los parametros
          * enteros de fila y columna entregados este queda en jaque o atacado por una ficha 
          * contraria segun la posicion actual del tablero de juego entregada por el parametro
@@ -783,8 +1062,28 @@ namespace Lab6_Ajedrez
          */
         public bool quedaEnJaque(int fila, int col, Tablero tablero)
         {
-            // Logica para retornar false TO DO
-            return true;
+            // Se evalua jaque por la direccion de la diagonal ascendente
+            if(jaqueDiagAsc(fila, col, tablero))
+            {
+                return true;
+            }
+            // Se evalua jaque por la direccion de la diagonal descendente
+            if (jaqueDiagDesc(fila, col, tablero))
+            {
+                return true;
+            }
+            // Se evalua jaque de manera horizontal
+            if(jaqueHorizontal(fila, col, tablero))
+            {
+                return true;
+            }
+            // Se evalua jaque de manera vertical
+            if(jaqueVertical(fila, col, tablero))
+            {
+                return true;
+            }
+            // Si llega aqui es que no ha encontrado amenaza en ninguna direccion
+            return false;
         }
 
         /*
@@ -795,7 +1094,79 @@ namespace Lab6_Ajedrez
         {
             if (!haMovido && !estadoEnJaque)
             {
-                // Logica para encontrar movimientos y agregarlos TO DO
+                int colTorreDer = 7;
+                int colTorreIzq = 0;
+                int incr = 1;
+                if(this.color == Color.Negro)
+                {
+                    colTorreDer = colTorreIzq;
+                    colTorreIzq = 7;
+                    incr = -1;
+                }
+                // examina si puede enrocar con torre a la "derecha"
+                int relPos = Math.Abs(col - colTorreDer);
+                Ficha ficha = null;
+                while(relPos >= 0 && ficha == null)
+                {
+                    relPos--;
+                    ficha = tablero.posiciones[fila, col + incr].ficha;
+                    // Evalua si el rey es atacado mientras enroca, en tal caso no puede
+                    // enrocar
+                    if(quedaEnJaque(fila, col + incr, tablero))
+                    {
+                        relPos = -1;
+                    }
+                    incr += incr;
+                }
+                // Si logra encontrar todas las casillas vacias hasta la torre se puede 
+                // enrocar
+                if(relPos < 0 && ficha.tipo == TipoFicha.Torre)
+                {
+                    // El enroque es posible solo si la torre no ha movido
+                    Torre torreEnr = (Torre)ficha;
+                    if (!torreEnr.haMovido)
+                    {
+                        int nuevaColRey = col + 2;
+                        if (this.color == Color.Negro)
+                        {
+                            nuevaColRey = col - 2;
+                        }
+                        this.agregarEnroque(fila, nuevaColRey);
+                    }   
+                }
+                // examina si puede enrocar con torre a la "izquierda"
+                incr = (-1) * incr;
+                relPos = Math.Abs(col - colTorreIzq);
+                ficha = null;
+                while (relPos >= 0 && ficha == null)
+                {
+                    relPos--;
+                    ficha = tablero.posiciones[fila, col + incr].ficha;
+                    // Evalua si el rey es atacado mientras enroca, en tal caso no puede
+                    // enrocar
+                    if (quedaEnJaque(fila, col + incr, tablero))
+                    {
+                        relPos = -1;
+                    }
+                    incr += incr;
+                }
+                // Si logra encontrar todas las casillas vacias hasta la torre se puede 
+                // enrocar
+                if (relPos < 0 && ficha.tipo == TipoFicha.Torre)
+                {
+                    // El enroque es posible solo si la torre no ha movido
+                    Torre torreEnr = (Torre)ficha;
+                    if (!torreEnr.haMovido)
+                    {
+                        int nuevaColRey = col - 2;
+                        if (this.color == Color.Negro)
+                        {
+                            nuevaColRey = col + 2;
+                        }
+                        this.agregarEnroque(fila, nuevaColRey);
+                    }
+                        
+                }
             }
         }
 
@@ -807,6 +1178,12 @@ namespace Lab6_Ajedrez
             if (n > 0)
             {
                 this.movimientos.Clear();
+            }
+            // Se limpia la lista de enroues si se encuentra llena para luego actualizar
+            n = movEnroque.Count;
+            if (n > 0)
+            {
+                this.movEnroque.Clear();
             }
             // variables auxiliares
             int fila = posicion.fila;

@@ -21,6 +21,9 @@ namespace Lab6_Ajedrez
         public int partidasPerdidas { get; set; }
         public int partidasTablas { get; set; }
 
+        List<Ficha> fichasEnJuego;
+        List<Ficha> fichasPerdidas;
+
         Color fichaAsignada { get; set; }
 
         public Jugador(String nombre)
