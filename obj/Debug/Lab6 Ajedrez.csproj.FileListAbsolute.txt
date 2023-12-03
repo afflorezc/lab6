@@ -1,0 +1,10 @@
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\bin\Debug\Lab6 Ajedrez.exe.config
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\bin\Debug\Lab6 Ajedrez.exe
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\bin\Debug\Lab6 Ajedrez.pdb
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\obj\Debug\Lab6 Ajedrez.csproj.AssemblyReference.cache
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\obj\Debug\Lab6_Ajedrez.JuegoPpal.resources
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\obj\Debug\Lab6_Ajedrez.Properties.Resources.resources
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\obj\Debug\Lab6 Ajedrez.csproj.GenerateResource.cache
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\obj\Debug\Lab6 Ajedrez.csproj.CoreCompileInputs.cache
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\obj\Debug\Lab6 Ajedrez.exe
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\obj\Debug\Lab6 Ajedrez.pdb

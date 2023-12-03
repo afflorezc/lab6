@@ -146,6 +146,7 @@ namespace Lab6_Ajedrez
             // un jaque mate por parte de alguno de los oponentes
             if (juegoActivo)
             {
+                // Cambiar por mensaje de que hay un juego activo?
                 DialogResult decision = new DialogResult();
                 decision = operBas.mensajeDesicion("Terminar juego", "En este momento" +
                     " hay un juego en curso. ¿Desea finalizar este juego e iniciar otro?");
@@ -162,10 +163,10 @@ namespace Lab6_Ajedrez
             {
                 // se activa un juego nuevo
                 juegoActivo = true;
-                jug1Label.Text = $"Jugador 1: {jugadorUno.nombre}";
-                jug2Label.Text = $"Jugador 2: {jugadorDos.nombre}";
-                Jug1Puntaje.Text = $"Puntaje: {jugadorUno.puntajePartida}";
-                jug2Puntaje.Text = $"Puntaje: {jugadorDos.puntajePartida}";
+                jug1Label.Text = $"Jugador 1: TestPlayer1";//{jugadorUno.nombre}";
+                jug2Label.Text = $"Jugador 2: TestPlayer2";//{jugadorDos.nombre}";
+                Jug1Puntaje.Text = $"Puntaje: 0";//{jugadorUno.puntajePartida}";
+                jug2Puntaje.Text = $"Puntaje: 0";//{jugadorDos.puntajePartida}";
                 // Se inicializa la ficha seleccionad en matriz con un valor equivalente al
                 // "vacio" (no fichas seleccionadas)
                 fichaSeleccionada = new PosicionMatriz(-1, -1);
@@ -178,7 +179,7 @@ namespace Lab6_Ajedrez
         /*
         * Método que inicializa el tablero de juego de acuerdo a la matriz del objeto
         * tipo tablero al asignar valores a una matriz de objetos tipo PictureBox
-        * que dibujaran cada caramelo
+        * que dibujaran cada casilla con su respectiva ficha en caso de poseerla
         */
         public void pintarTablero()
         {
@@ -192,12 +193,252 @@ namespace Lab6_Ajedrez
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    //Image recurso = seleccionarRecursoCaramelo(tab.valores[i, j]);
-                    //asignarPicture(i, j, recurso);
+                    Image recurso = tableroJuego.posiciones[i, j].imagen;
+                    asignarPicture(i, j, recurso);
                 }
             }
 
         }
+
+        /*
+        * Método que hace una asignación de una PictureBox a la matriz de imagenes en la
+        * posición establecida
+        */
+        private void asignarPicture(int i, int j, Image imagenRecurso)
+        {
+            // se identifica el tamaño en pixeles de la celda en el tablelayoutPanel
+            TableLayoutRowStyleCollection estilosFil = tableroPpal.RowStyles;
+            TableLayoutColumnStyleCollection estilosCol = tableroPpal.ColumnStyles;
+            int alto = (int) estilosFil[i].Height;
+            int ancho = (int) estilosCol[j].Width;
+            PictureBox pictureAux = new PictureBox();
+            pictureAux.Image = imagenRecurso;
+            pictureAux.Location = new System.Drawing.Point(0, 0);
+            pictureAux.Name = $"pictureBox{i},{j}";
+            pictureAux.Size = new System.Drawing.Size(ancho, alto);
+            // cada imagen se ubica extendida a todo el tamaño de cada celda
+            // sin margenes
+            pictureAux.Margin = new Padding(0);
+            pictureAux.Anchor = (AnchorStyles.Left | AnchorStyles.Right |
+                                  AnchorStyles.Top | AnchorStyles.Bottom);
+            pictureAux.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            // Se establece el mismo manejador de eventos de clic para cada PictureBox
+            pictureAux.Click += PictureBox_Click;
+            // si ya existe una imagen en el TableLayoutPanel se elimina para
+            // luego reemplazar
+            if (tableroPpal.Controls.Contains(matPictureBox[i, j]))
+            {
+                tableroPpal.Controls.Remove(matPictureBox[i, j]);
+            }
+            matPictureBox[i, j] = pictureAux;
+            // Se adiciona la nueva imagen
+            tableroPpal.Controls.Add(pictureAux, j, i);
+        }
+        /*
+         * Método que redibuja las casillas del juego para representar los posibles
+         * movimientos que posee una ficha seleccionada
+         */
+        public void marcarCasillas(int fila, int col)
+        {
+            // Se calculan las posiciones de posible movimiento de la ficha
+            Ficha ficha = tableroJuego.posiciones[fila, col].ficha;
+            ficha.encontrarMovimientos(tableroJuego);
+            // Se marcan las posiciones donde puede mover
+            if(ficha.movimientos != null)
+            {
+                int n = ficha.movimientos.Count;
+                if (n > 0)
+                {
+                    for (int i = 0; i < n; i++)
+                    {
+                        PosicionMatriz mov = ficha.movimientos[i].y;
+                        int f = mov.fila;
+                        int c = mov.columna;
+                        // Marca la casilla
+                        tableroJuego.posiciones[f, c].marcada = true;
+                        tableroJuego.posiciones[f, c].asignarImagen();
+                        asignarPicture(f, c, tableroJuego.posiciones[f, c].imagen);
+                    }
+                }
+            }
+            // Si la ficha es rey se comprueban sus jugadas de enroque
+            if (ficha.tipo == TipoFicha.Rey)
+            {
+                Rey rey = (Rey)ficha;
+                if(rey.movEnroque != null)
+                {
+                    int n = rey.movEnroque.Count;
+                    if (n > 0)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            PosicionMatriz mov = rey.movEnroque[i].y;
+                            int f = mov.fila;
+                            int c = mov.columna;
+                            // Marca la casilla
+                            tableroJuego.posiciones[f, c].marcada = true;
+                            tableroJuego.posiciones[f, c].asignarImagen();
+                            asignarPicture(f, c, tableroJuego.posiciones[f, c].imagen);
+                        }
+                    }
+                }
+            }
+            
+        }
+        /*
+         * Método que redibuja las casillas del tablero de juego que fueron marcadas
+         * como posibles movimientos de juego en cierto momento
+         */
+        public void desmarcarCasillas(int fila, int columna)
+        {
+            Ficha ficha = tableroJuego.posiciones[fila, columna].ficha;
+            if(ficha.movimientos != null)
+            {
+                int n = ficha.movimientos.Count;
+                if (n > 0)
+                {
+                    for (int i = 0; i < n; i++)
+                    {
+                        PosicionMatriz casilla = ficha.movimientos[i].y;
+                        int f = casilla.fila;
+                        int c = casilla.columna;
+                        tableroJuego.posiciones[f, c].marcada = false;
+                        tableroJuego.posiciones[f, c].asignarImagen();
+                        asignarPicture(f, c, tableroJuego.posiciones[f, c].imagen);
+                    }
+                }
+            }
+            // si la ficha es un rey se desmarcan los enroques
+            if (ficha.tipo == TipoFicha.Rey)
+            {
+                Rey rey = (Rey)ficha;
+                if (rey.movEnroque != null)
+                {
+                    int n = rey.movEnroque.Count;
+                    if (n > 0)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            PosicionMatriz mov = rey.movEnroque[i].y;
+                            int f = mov.fila;
+                            int c = mov.columna;
+                            // Marca la casilla
+                            tableroJuego.posiciones[f, c].marcada = false;
+                            tableroJuego.posiciones[f, c].asignarImagen();
+                            asignarPicture(f, c, tableroJuego.posiciones[f, c].imagen);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        /*
+       * Método que evalua cuando se hace click sobre un objeto del tipo PictureBox
+       * del tablero de juego, es decir, cuando se selecciona una ficha del juego con
+       * el objetivo de aplicar una jugada a partir de intercambiar esta celda a sus
+       * posiciones vecinas (Manejador generico del evento click)
+       */
+        private void PictureBox_Click(object sender, EventArgs e)
+        {
+            if (sender is PictureBox pictureBox)
+            {
+                String nombre = pictureBox.Name;
+                // establece la posicion que se ha seleccionado
+                String posicion = nombre.Substring(10);
+                int posComa = posicion.IndexOf(",");
+                int fila = int.Parse(posicion.Substring(0, posComa));
+                int col = int.Parse(posicion.Substring(posComa + 1));
+                // Si hay una ficha seleccionada se intenta mover hacia alguna
+                // posicion valida
+                if (fichaSeleccionada.fila > -1 && fichaSeleccionada.columna > -1)
+                {
+                    // Si ya existe una ficha seleccionada se intenta mover a la posición
+                    // señalada, si no se puede mover se deselecciona y limpia su lista
+                    // de movimientos posibles
+                    PosicionMatriz lleg = new PosicionMatriz(fila, col);
+                    Ficha ficha =  tableroJuego.posiciones[fichaSeleccionada.fila,
+                                      fichaSeleccionada.columna].ficha;
+                    ParOrdenado mov = new ParOrdenado(ficha.posicion, lleg);
+                    if (ficha.esMovimientoVal(mov))
+                    {
+                        // Si se mueve de manera exitosa se dibujan todas las celdas
+                        if(ficha.mover(mov, tableroJuego))
+                        {
+                            // Se reasigna la imagen a la casilla donde estaba la ficha
+                            int f = fichaSeleccionada.fila;
+                            int c = fichaSeleccionada.columna;
+                            asignarPicture(f, c, tableroJuego.posiciones[f, c].imagen);
+                            desmarcarCasillas(fila, col);
+                            // Se limpia la lista de movimientos de la ficha movida
+                            tableroJuego.posiciones[fila, col].ficha.limpiarMovimientos();
+                            // Se cambia el turno
+                            if(turnoActual == Color.Blanco)
+                            {
+                                turnoActual = Color.Negro;
+                            }
+                            else
+                            {
+                                turnoActual = Color.Blanco;
+                            }
+                            // Ya no existen fichas seleccionadas
+                            fichaSeleccionada.fila = -1;
+                            fichaSeleccionada.columna = -1;
+                        }
+
+                    }
+                    else
+                    {
+                        // Si no es movimiento valido comprobar si se selecciono
+                        // otra ficha y cambiar la seleccion por dicha ficha
+                        ficha = tableroJuego.posiciones[fila, col].ficha;
+                        if(ficha != null && ficha.color == turnoActual)
+                        {
+                            int f = fichaSeleccionada.fila;
+                            int c = fichaSeleccionada.columna;
+                            fichaSeleccionada.fila = fila;
+                            fichaSeleccionada.columna = col;
+                            tableroJuego.posiciones[f, c].marcada = false;
+                            tableroJuego.posiciones[f, c].asignarImagen();
+                            asignarPicture(f, c, tableroJuego.posiciones[f, c].imagen);
+                            // Se limpian las posiciones posibles jugadas y se limpia
+                            // la lista de movimientos
+                            desmarcarCasillas(f, c);
+                            // Se limpia la lista de movimientos
+                            tableroJuego.posiciones[f, c].ficha.limpiarMovimientos();
+                            // Se marca la casilla nueva seleccionada al igual que sus
+                            // movimientos posibles
+                            tableroJuego.posiciones[fila, col].marcada = true;
+                            tableroJuego.posiciones[fila, col].asignarImagen();
+                            asignarPicture(fila, col, tableroJuego.posiciones[fila, col].imagen);
+                            marcarCasillas(fila, col);
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    // Se selecciona la celda clickeada (si es ficha valida del turno
+                    // en juego
+                    Ficha ficha = tableroJuego.posiciones[fila, col].ficha;
+                    if(ficha != null && ficha.color == turnoActual)
+                    {
+                        fichaSeleccionada.fila = fila;
+                        fichaSeleccionada.columna = col;
+                        // Se marca la ficha
+                        tableroJuego.posiciones[fila, col].marcada = true;
+                        tableroJuego.posiciones[fila, col].asignarImagen();
+                        asignarPicture(fila, col, tableroJuego.posiciones[fila, col].imagen);
+                        // Se calculan las posiciones de posible movimiento de la ficha
+                        marcarCasillas(fila, col);
+                        
+                    }
+
+                }
+            }
+
+        }
+
     }
 
  

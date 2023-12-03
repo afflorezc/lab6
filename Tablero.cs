@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +17,448 @@ namespace Lab6_Ajedrez
         public Color color { get; set; }
         public Ficha ficha { get; set; }
 
+        public Image imagen { get; set; }
+
+        public bool marcada { get; set; }
+
+        /*
+         * Costructor básico del objeto casilla que asigna su propiedad de color
+         */
         public Casilla(Color color)
         {
             this.color = color;
+            this.marcada = false;
         }
+        /*
+         * Método que asigna la imagen apropiada para un peon en la casilla
+         */
+        public void imagenPeon(Peon peon)
+        {
+            switch (peon.color)
+            {
+                case Color.Blanco:
+                    if(this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._3a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._3b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._4a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._4b;
+                        }
+                    }
+                    break;
+                case Color.Negro:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._5a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._5b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._6a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._6b;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        /*
+         * Método que asigna la imagen apropiada para una torre
+         */
+        public void imagenTorre(Torre torre)
+        {
+            switch (torre.color)
+            {
+                case Color.Blanco:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._7a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._7b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._8a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._8b;
+                        }
+                    }
+                    break;
+                case Color.Negro:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._9a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._9b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._10a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._10b;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        /*
+         * Método que asigna la imagen apropiada para un caballo en la casilla
+         */
+        public void imagenCaballo(Caballo caballo)
+        {
+            switch (caballo.color)
+            {
+                case Color.Blanco:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._11a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._11b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._12a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._12b;
+                        }
+                    }
+                    break;
+                case Color.Negro:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._13a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._13b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._14a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._14b;
+                        }
+                    }
+                    break;
+            }
+        }
+        /*
+         * Método que asigna la imagen apropiada para un Alfil en la casilla
+         */
+        public void imagenAlfil(Alfil alfil)
+        {
+            switch (alfil.color)
+            {
+                case Color.Blanco:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._15a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._15b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._16a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._16b;
+                        }
+                    }
+                    break;
+                case Color.Negro:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._17a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._17b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._18a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._18b;
+                        }
+                    }
+                    break;
+            }
+        }
+        /*
+         * Método que asigna la imagen apropiada para una reina en la casilla
+         */
+        public void imagenReina(Reina reina)
+        {
+            switch (reina.color)
+            {
+                case Color.Blanco:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._19a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._19b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._20a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._20b;
+                        }
+                    }
+                    break;
+                case Color.Negro:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._21a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._21b;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._22a;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._22b;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        /*
+         * Método que asigna la imagen apropiada para un rey en la casilla
+         */
+        public void imagenRey(Rey rey)
+        {
+            switch (rey.color)
+            {
+                case Color.Blanco:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._23a;
+                        }
+                        else if(!rey.enJaque)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._23b;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._23c;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._24a;
+                        }
+                        else if(!rey.enJaque)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._24b;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._24c;
+                        }
+                    }
+                    break;
+                case Color.Negro:
+                    if (this.color == Color.Blanco)
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._25a;
+                        }
+                        else if(!rey.enJaque)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._25b;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._25c;
+                        }
+                    }
+                    else
+                    {
+                        if (!this.marcada)
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._26a;
+                        }
+                        else if (!rey.enJaque) 
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._26b;
+                        }
+                        else
+                        {
+                            this.imagen = global::Lab6_Ajedrez.Properties.Resources._26c;
+                        }
+                    }
+                    break;
+            }
+        }
+        /*
+         * Método que asigna la imagen apropiada desde los recursos de acuerdo al tipo
+         * de ficha contenida en esta, su color, y el color de la casilla
+         */
+        public void asignarImagen()
+        {
+            if(this.ficha == null)
+            {
+                if (this.color == Color.Blanco)
+                {
+                    if (!marcada)
+                    {
+                        this.imagen = global::Lab6_Ajedrez.Properties.Resources._1a;
+                    }
+                    else
+                    {
+                        this.imagen = global::Lab6_Ajedrez.Properties.Resources._1b;
+                    }
+                }
+                else
+                {
+                    if (!marcada)
+                    {
+                        this.imagen = global::Lab6_Ajedrez.Properties.Resources._2a;
+                    }
+                    else
+                    {
+                        this.imagen = global::Lab6_Ajedrez.Properties.Resources._2b;
+                    }
+                }
+                return;
+            }
+            switch (this.ficha.tipo)
+            {
+                case TipoFicha.Peon:
+                    Peon peon =(Peon)this.ficha;
+                    imagenPeon(peon);
+                    break;
+
+                case TipoFicha.Torre:
+                    Torre torre = (Torre)this.ficha;
+                    imagenTorre(torre);
+                    break;
+
+                case TipoFicha.Caballo:
+                    Caballo caballo = (Caballo)this.ficha;
+                    imagenCaballo(caballo);
+                    break;
+
+                case TipoFicha.Alfil:
+                    Alfil alfil = (Alfil)this.ficha;
+                    imagenAlfil(alfil);
+                    break;
+
+                case TipoFicha.Reina:
+                    Reina reina = (Reina)this.ficha;
+                    imagenReina(reina);
+                    break;
+
+                case TipoFicha.Rey:
+                    Rey rey = (Rey)this.ficha;
+                    imagenRey(rey);
+                    break;  
+
+            }
+        }
+
     }
+
     /*
      * Clase que representa el tablero de juego, este es basicamente una matriz de casillas
      * y las operaciones alteraran la propiedad ficha de cada una de las casillas, pues el color
@@ -58,6 +496,7 @@ namespace Lab6_Ajedrez
                     }
                     // Se asigna una ficha a la casilla creada
                     casillaAux.ficha = asignarFicha(posicion);
+                    casillaAux.asignarImagen();
                     // Se añade la casilla a la matriz de casillas que representan 
                     // el tablero
                     posiciones[i, j] = casillaAux;
@@ -83,12 +522,12 @@ namespace Lab6_Ajedrez
                     return new Peon(color, posicion);
 
                 // Ubica las fichas blancas en el tablero
-                case 7:
+                case 6:
                     color = Color.Blanco;
                     // se ubican los peones blancos
                     return new Peon(color, posicion);
 
-                case 8:
+                case 7:
                     color = Color.Blanco;
                     // Se ubican las fichas principales de color blanco del juego
                     return fichaPpal(color, posicion);

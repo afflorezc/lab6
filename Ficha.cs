@@ -46,6 +46,8 @@ namespace Lab6_Ajedrez
         {
             this.color = color;
             this.posicion = posicion;
+            // Inicializacion de la lista de movimientos
+            movimientos = new List<ParOrdenado>();
         }
         /*
          * Comprobación si el movimiento en tablero, el cual es referenciado por el par ordenado
@@ -56,15 +58,18 @@ namespace Lab6_Ajedrez
         public virtual bool esMovimientoVal(ParOrdenado movimiento)
         {
             // Se compara el movimiento con cada uno de los movimientos en la lista
-            int n = movimientos.Count;
-            if (n > 0)
+            if(this.movimientos != null)
             {
-                for (int i = 0; i < n; i++)
+                int n = movimientos.Count;
+                if (n > 0)
                 {
-                    ParOrdenado parValido = movimientos[i];
-                    if (parValido.esIgual(movimiento))
+                    for (int i = 0; i < n; i++)
                     {
-                        return true;
+                        ParOrdenado parValido = movimientos[i];
+                        if (parValido.esIgual(movimiento))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -92,14 +97,27 @@ namespace Lab6_Ajedrez
                 int colSal = movimiento.x.columna;
                 Ficha ficha = tablero.posiciones[filSal, colSal].ficha;
                 tablero.posiciones[filSal, colSal].ficha = null;
-                int filLLeg = movimiento.y.fila;
-                int colLLeg = movimiento.y.columna;
-                tablero.posiciones[filSal, colSal].ficha = ficha;
-                this.posicion = new PosicionMatriz(filLLeg, colLLeg);
-                // Una vez se mueve una ficha se limpia la lista de movimientos
-                // Para ser actualizada nuevamente cuando se desee jugar con esta desde
-                // su nueva posición
-                this.movimientos.Clear();
+                tablero.posiciones[filSal, colSal].marcada = false;
+                tablero.posiciones[filSal, colSal].asignarImagen();
+                int filLleg = movimiento.y.fila;
+                int colLleg = movimiento.y.columna;
+                tablero.posiciones[filLleg, colLleg].ficha = ficha;
+                tablero.posiciones[filLleg, colLleg].marcada = false;
+                tablero.posiciones[filLleg, colLleg].asignarImagen();
+                this.posicion = new PosicionMatriz(filLleg, colLleg);
+                // Se desmarcan las celdas de los movimientos posibles que habian
+                int n = movimientos.Count;
+                if(n > 0)
+                {
+                    for(int i = 0; i < n; i++)
+                    {
+                        PosicionMatriz casilla = movimientos[i].y;
+                        int fila = casilla.fila;
+                        int col = casilla.columna;
+                        tablero.posiciones[fila, col].marcada = false;
+                        tablero.posiciones[fila, col].asignarImagen();
+                    }
+                }
                 return true;
                
             }
@@ -116,9 +134,12 @@ namespace Lab6_Ajedrez
             // Se agrega a la lista
             movimientos.Add(mov);
         }
-        public void eliminar()
+        public virtual void limpiarMovimientos()
         {
-
+            if(this.movimientos != null)
+            {
+                this.movimientos.Clear();
+            }
         }
 
         public virtual void encontrarMovimientos(Tablero tablero) 
@@ -143,28 +164,29 @@ namespace Lab6_Ajedrez
         public override void encontrarMovimientos(Tablero tablero)
         {
             // Se limpia la lista si se encuentra llena para luego actualizar
-            int n = movimientos.Count;
-            if (n > 0)
-            {
-                this.movimientos.Clear();
-            }
+            limpiarMovimientos();
             // Variables auxiliares
             int fila = posicion.fila;
             int col = posicion.columna;
             int filaSuperior = 0;
             // Se obtiene la posicion relativa entre la fila de la posicion actual
             // y la fila superior correspondiente
-            int relPos = Math.Abs(fila - filaSuperior);
             Color colFichaCont = Color.Negro;
             if(this.color == Color.Negro)
             {
                 filaSuperior = 7;
-                fila += 1;
                 colFichaCont = Color.Blanco;
+            }
+            // Se obtiene la posicion relativa entre la fila de la posicion actual
+            // y la fila superior correspondiente
+            int relPos = Math.Abs(fila - filaSuperior);
+            if(this.color == Color.Negro)
+            {
+                fila++;
             }
             else
             {
-                fila -= 1;
+                fila--;
             }
             Ficha ficha;
             // El peon solo encuentra movimientos mientras no halla llegado a la 
@@ -185,7 +207,7 @@ namespace Lab6_Ajedrez
                         }
                     }
                 }
-                if (col < 8)
+                if (col < 7)
                 {
                     ficha = tablero.posiciones[fila, col + 1].ficha;
                     if (ficha != null)
@@ -209,7 +231,15 @@ namespace Lab6_Ajedrez
                     // relativa es 6
                     if (relPos == 6)
                     {
-                        ficha = tablero.posiciones[fila + 1, col].ficha;
+                        if(this.color == Color.Negro)
+                        {
+                            fila++;
+                        }
+                        else
+                        {
+                            fila--;
+                        }
+                        ficha = tablero.posiciones[fila, col].ficha;
                         if (ficha == null)
                         {
                             base.agregarMov(fila, col);
@@ -247,9 +277,10 @@ namespace Lab6_Ajedrez
         public void buscarMovDerecha(Tablero tablero, int fila, int col, Color colFichaCont)
         {
             Ficha ficha = null;
-            while(col < 8 && ficha == null) 
+            while(col < 7 && ficha == null) 
             {
-                ficha = tablero.posiciones[fila, col++].ficha;
+                col++;
+                ficha = tablero.posiciones[fila, col].ficha;
                 if(ficha == null)
                 {
                     base.agregarMov(fila, col);
@@ -272,7 +303,8 @@ namespace Lab6_Ajedrez
             Ficha ficha = null;
             while (col > 0 && ficha == null)
             {
-                ficha = tablero.posiciones[fila, col--].ficha;
+                col--;
+                ficha = tablero.posiciones[fila, col].ficha;
                 if(ficha == null)
                 {
                     base.agregarMov(fila, col);
@@ -294,7 +326,8 @@ namespace Lab6_Ajedrez
             Ficha ficha = null;
             while (fila > 0 && ficha == null)
             {
-                ficha = tablero.posiciones[fila--, col].ficha;
+                fila--;
+                ficha = tablero.posiciones[fila, col].ficha;
                 if (ficha == null)
                 {
                     base.agregarMov(fila, col);
@@ -314,9 +347,10 @@ namespace Lab6_Ajedrez
         public void buscarMovAbajo(Tablero tablero, int fila, int col, Color colFichaCont)
         {
             Ficha ficha = null;
-            while (fila < 8 && ficha == null)
+            while (fila < 7 && ficha == null)
             {
-                ficha = tablero.posiciones[fila++, col].ficha;
+                fila++;
+                ficha = tablero.posiciones[fila, col].ficha;
                 if (ficha == null)
                 {
                     base.agregarMov(fila, col);
@@ -332,11 +366,7 @@ namespace Lab6_Ajedrez
         public override void encontrarMovimientos(Tablero tablero)
         {
             // Se limpia la lista si se encuentra llena para luego actualizar
-            int n = movimientos.Count;
-            if (n > 0)
-            {
-                this.movimientos.Clear();
-            }
+            limpiarMovimientos();
             // Variables auxiliares
             int fila = posicion.fila;
             int col = posicion.columna;
@@ -379,8 +409,8 @@ namespace Lab6_Ajedrez
             Ficha ficha;
             if (col < 6)
             {
-                //mover luego hacia arriba
-                if (fila > 0)
+                //mover luego hacia abajo
+                if (fila < 7)
                 {
                     ficha = tablero.posiciones[fila + 1, col + 2].ficha;
                     if (ficha != null && ficha.color == colFichaCont)
@@ -389,14 +419,14 @@ namespace Lab6_Ajedrez
                         // la ficha sea del color contrario
                         base.agregarMov(fila + 1, col + 2);
                     }
-                    else
+                    else if(ficha == null)
                     {
                         // la casilla esta vacia se puede mover
                         base.agregarMov(fila + 1, col + 2);
                     }
                 }
-                // mover luego hacia abajo
-                if (fila < 8)
+                // mover luego hacia arriba
+                if (fila > 0)
                 {
                     ficha = tablero.posiciones[fila - 1, col + 2].ficha;
                     if (ficha != null && ficha.color == colFichaCont)
@@ -405,7 +435,7 @@ namespace Lab6_Ajedrez
                         // la ficha sea del color contrario
                         base.agregarMov(fila - 1, col + 2);
                     }
-                    else
+                    else if(ficha == null)
                     {
                         // la casilla esta vacia se puede mover
                         base.agregarMov(fila - 1, col + 2);
@@ -424,8 +454,8 @@ namespace Lab6_Ajedrez
             Ficha ficha;
             if (col > 1)
             {
-                //mover luego hacia arriba
-                if (fila > 0)
+                //mover luego hacia abajo
+                if (fila < 7)
                 {
                     ficha = tablero.posiciones[fila + 1, col - 2].ficha;
                     if (ficha != null && ficha.color == colFichaCont)
@@ -434,14 +464,14 @@ namespace Lab6_Ajedrez
                         // la ficha sea del color contrario
                         base.agregarMov(fila + 1, col - 2);
                     }
-                    else
+                    else if(ficha == null)
                     {
                         // la casilla esta vacia se puede mover
                         base.agregarMov(fila + 1, col - 2);
                     }
                 }
-                // mover luego hacia abajo
-                if (fila < 8)
+                // mover luego hacia arriba
+                if (fila > 0)
                 {
                     ficha = tablero.posiciones[fila - 1, col - 2].ficha;
                     if (ficha != null && ficha.color == colFichaCont)
@@ -450,7 +480,7 @@ namespace Lab6_Ajedrez
                         // la ficha sea del color contrario
                         base.agregarMov(fila - 1, col - 2);
                     }
-                    else
+                    else if(ficha == null)
                     {
                         // la casilla esta vacia se puede mover
                         base.agregarMov(fila - 1, col - 2);
@@ -479,14 +509,14 @@ namespace Lab6_Ajedrez
                         // la ficha sea del color contrario
                         base.agregarMov(fila + 2, col - 1);
                     }
-                    else
+                    else if(ficha == null)
                     {
                         // la casilla esta vacia se puede mover
                         base.agregarMov(fila + 2, col - 1);
                     }
                 }
                 // mover luego hacia la derecha
-                if (col < 8)
+                if (col < 7)
                 {
                     ficha = tablero.posiciones[fila + 2, col +1].ficha;
                     if (ficha != null && ficha.color == colFichaCont)
@@ -495,7 +525,7 @@ namespace Lab6_Ajedrez
                         // la ficha sea del color contrario
                         base.agregarMov(fila + 2, col +1);
                     }
-                    else
+                    else if(ficha == null)
                     {
                         // la casilla esta vacia se puede mover
                         base.agregarMov(fila + 2, col +1);
@@ -525,14 +555,14 @@ namespace Lab6_Ajedrez
                         // la ficha sea del color contrario
                         base.agregarMov(fila - 2, col - 1);
                     }
-                    else
+                    else if(ficha == null)
                     {
                         // la casilla esta vacia se puede mover
                         base.agregarMov(fila - 2, col - 1);
                     }
                 }
                 // mover luego hacia la derecha
-                if (col < 8)
+                if (col < 7)
                 {
                     ficha = tablero.posiciones[fila - 2, col + 1].ficha;
                     if (ficha != null && ficha.color == colFichaCont)
@@ -541,7 +571,7 @@ namespace Lab6_Ajedrez
                         // la ficha sea del color contrario
                         base.agregarMov(fila - 2, col + 1);
                     }
-                    else
+                    else if (ficha == null)
                     {
                         // la casilla esta vacia se puede mover
                         base.agregarMov(fila - 2, col + 1);
@@ -557,11 +587,7 @@ namespace Lab6_Ajedrez
         public override void encontrarMovimientos(Tablero tablero)
         {
             // Se limpia la lista si se encuentra llena para luego actualizar
-            int n = movimientos.Count;
-            if (n > 0)
-            {
-                this.movimientos.Clear();
-            }
+            limpiarMovimientos();
             // Variables auxiliares
             int fila = posicion.fila;
             int col = posicion.columna;
@@ -624,6 +650,7 @@ namespace Lab6_Ajedrez
                 cont++;
             }
             // Se evalua movimientos hacia la izquierda y abajo
+            ficha = null;
             cont = 1;
             while (fila + cont < 8 && col - cont >= 0 && ficha == null)
             {
@@ -671,6 +698,7 @@ namespace Lab6_Ajedrez
                 cont++;
             }
             // Se evalua movimientos hacia la izquierda y arriba
+            ficha = null;
             cont = 1;
             while (fila - cont >= 0 && col - cont >= 0 && ficha == null)
             {
@@ -693,11 +721,7 @@ namespace Lab6_Ajedrez
         public override void encontrarMovimientos(Tablero tablero)
         {
             // Se limpia la lista si se encuentra llena para luego actualizar
-            int n = movimientos.Count;
-            if (n > 0)
-            {
-                this.movimientos.Clear();
-            }
+            limpiarMovimientos();
             // Variables auxiliares
             int fila = posicion.fila;
             int col = posicion.columna;
@@ -729,31 +753,34 @@ namespace Lab6_Ajedrez
         public override void encontrarMovimientos(Tablero tablero)
         {
             // Se limpia la lista si se encuentra llena para luego actualizar
-            int n = movimientos.Count;
-            if (n > 0)
-            {
-                this.movimientos.Clear();
-            }
+            limpiarMovimientos();
             Ficha alfilRef = new Alfil(this.color, this.posicion);
             Ficha torreRef = new Torre(this.color, this.posicion);
             alfilRef.encontrarMovimientos(tablero);
             torreRef.encontrarMovimientos(tablero);
-            n = alfilRef.movimientos.Count;
-            if(n> 0)
+            if(alfilRef.movimientos != null)
             {
-                for(int i = 0; i < n; i++)
+                int n = alfilRef.movimientos.Count;
+                if (n > 0)
                 {
-                    this.movimientos.Add(alfilRef.movimientos[i]);
+                    for (int i = 0; i < n; i++)
+                    {
+                        this.movimientos.Add(alfilRef.movimientos[i]);
+                    }
                 }
             }
-            n = torreRef.movimientos.Count;
-            if (n > 0)
+            if(torreRef != null)
             {
-                for (int i = 0; i < n; i++)
+                int n = torreRef.movimientos.Count;
+                if (n > 0)
                 {
-                    this.movimientos.Add(torreRef.movimientos[i]);
+                    for (int i = 0; i < n; i++)
+                    {
+                        this.movimientos.Add(torreRef.movimientos[i]);
+                    }
                 }
             }
+            
         }
     }
     /*
@@ -764,11 +791,11 @@ namespace Lab6_Ajedrez
         // atributos adicionales para controlar movimientos y estados especiales del rey
         // tales como la posibilidad de enrocar o su estado de jaque
         bool estadoEnJaque { get; set; }
-        bool enJaque { get; set; }
+        public bool enJaque { get; set; }
         bool haMovido { get; set; }
 
         // Se separa en un vector nuevo los posibles enroques. son solo dos
-        List<ParOrdenado> movEnroque { get; set; }
+        public List<ParOrdenado> movEnroque { get; set; }
         /*
          * El constructor es el mismo de la clase base Ficha
          */
@@ -778,7 +805,25 @@ namespace Lab6_Ajedrez
             this.estadoEnJaque = false;
             this.enJaque = false;
             this.haMovido = false;
+            // Se inicializa la lista de enroques posibles
+            movEnroque = new List<ParOrdenado>();
         }
+        /*
+         * Metodo que limpia la lista de movimientos posibles. Sobrecarga el metodo base
+         * para limpiar las posibilidades de enroque de la lista
+         */
+        public override void limpiarMovimientos()
+        {
+            if(this.movimientos != null)
+            {
+                this.movimientos.Clear();
+            }
+            if(this.movEnroque != null)
+            {
+                this.movEnroque.Clear();
+            }
+        }
+
         /*
          * Métod de evaluacion de movimientos validos del rey, se sobrecarga pues se debe
          * tener en cuenta la lista de movimientos del tipo enroque que se han separado
@@ -787,28 +832,34 @@ namespace Lab6_Ajedrez
         public override bool esMovimientoVal(ParOrdenado movimiento)
         {
             // Se compara el movimiento con cada uno de los movimientos en la lista
-            int n = movimientos.Count;
-            if (n > 0)
+            if(this.movimientos != null)
             {
-                for (int i = 0; i < n; i++)
+                int n = movimientos.Count;
+                if (n > 0)
                 {
-                    ParOrdenado parValido = movimientos[i];
-                    if (parValido.esIgual(movimiento))
+                    for (int i = 0; i < n; i++)
                     {
-                        return true;
+                        ParOrdenado parValido = movimientos[i];
+                        if (parValido.esIgual(movimiento))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
             // Si no encontro en la lista de movimientos se examinan los movimientos de enroque
-            n = movEnroque.Count;
-            if(n > 0)
+            if(this.movEnroque != null)
             {
-                for(int i =0; i < n; i++)
+                int n = movEnroque.Count;
+                if (n > 0)
                 {
-                    ParOrdenado parValido = movimientos[i];
-                    if (parValido.esIgual(movimiento))
+                    for (int i = 0; i < n; i++)
                     {
-                        return true;
+                        ParOrdenado parValido = movimientos[i];
+                        if (parValido.esIgual(movimiento))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -837,17 +888,19 @@ namespace Lab6_Ajedrez
         public bool jaqueDiagAsc(int fila, int col, Tablero tablero)
         {
             int filaPeon = fila - 1;
+            int colPeon = col + 1;
             Color colFichaCont = Color.Negro;
             if(this.color == Color.Negro)
             {
                 filaPeon = fila + 1;
+                colPeon = col - 1;
                 colFichaCont = Color.Blanco;
             }
             Ficha ficha = null;
             // Comprueba si existe un peon que ataca la posicion dada
-            if(filaPeon>=0 && filaPeon < 8)
+            if(filaPeon>=0 && filaPeon < 8 && colPeon >=0 && colPeon < 8)
             {
-                ficha = tablero.posiciones[filaPeon, col + 1].ficha;
+                ficha = tablero.posiciones[filaPeon, colPeon].ficha;
                 if(ficha != null && ficha.tipo == TipoFicha.Peon && ficha.color == colFichaCont)
                 {
                     return true;
@@ -855,7 +908,7 @@ namespace Lab6_Ajedrez
             }
             // Si no hay peones, se busca un alfil o reina contrarios en dicha diagonal
             // hacia arriba - derecha
-            while(fila >= 0 && col < 8 && ficha == null)
+            while(fila > 0 && col < 7 && ficha == null)
             {
                 ficha = tablero.posiciones[fila - 1, col + 1].ficha;
                 fila--;
@@ -866,11 +919,15 @@ namespace Lab6_Ajedrez
             {
                 if(ficha.tipo == TipoFicha.Alfil || ficha.tipo == TipoFicha.Reina)
                 {
-                    return true;
+                    if(ficha.color == colFichaCont)
+                    {
+                        return true;
+                    }
+                    
                 }
             }
             // hacia abajo - izquieda
-            while (fila < 8 && col >= 0 && ficha == null)
+            while (fila < 7 && col >= 0 && ficha == null)
             {
                 ficha = tablero.posiciones[fila + 1, col - 1].ficha;
                 fila++;
@@ -881,7 +938,11 @@ namespace Lab6_Ajedrez
             {
                 if (ficha.tipo == TipoFicha.Alfil || ficha.tipo == TipoFicha.Reina)
                 {
-                    return true;
+                    if(ficha.color == colFichaCont)
+                    {
+                        return true;
+                    }
+                    
                 }
             }
             // Si ha llegado hasta aqui es que no encontro amenaza de jaque
@@ -896,17 +957,19 @@ namespace Lab6_Ajedrez
         public bool jaqueDiagDesc(int fila, int col, Tablero tablero)
         {
             int filaPeon = fila - 1;
+            int colPeon = col - 1;
             Color colFichaCont = Color.Negro;
             if (this.color == Color.Negro)
             {
                 filaPeon = fila + 1;
+                colPeon = col + 1;
                 colFichaCont = Color.Blanco;
             }
             Ficha ficha = null;
             // Comprueba si existe un peon que ataca la posicion dada
-            if (filaPeon >= 0 && filaPeon < 8)
+            if (filaPeon >= 0 && filaPeon < 8 && colPeon >=0 && colPeon < 8)
             {
-                ficha = tablero.posiciones[filaPeon, col - 1].ficha;
+                ficha = tablero.posiciones[filaPeon, colPeon].ficha;
                 if (ficha != null && ficha.tipo == TipoFicha.Peon && ficha.color == colFichaCont)
                 {
                     return true;
@@ -914,7 +977,7 @@ namespace Lab6_Ajedrez
             }
             // Si no hay peones, se busca un alfil o reina contrarios en dicha diagonal
             // hacia abajo - derecha
-            while (fila < 8 && col < 8 && ficha == null)
+            while (fila < 7 && col < 7 && ficha == null)
             {
                 ficha = tablero.posiciones[fila + 1, col + 1].ficha;
                 fila++;
@@ -925,11 +988,14 @@ namespace Lab6_Ajedrez
             {
                 if (ficha.tipo == TipoFicha.Alfil || ficha.tipo == TipoFicha.Reina)
                 {
-                    return true;
+                    if(ficha.color == colFichaCont)
+                    {
+                        return true;
+                    }
                 }
             }
             // hacia arriba - izquieda
-            while (fila >= 0 && col >= 0 && ficha == null)
+            while (fila > 0 && col > 0 && ficha == null)
             {
                 ficha = tablero.posiciones[fila - 1, col - 1].ficha;
                 fila--;
@@ -964,7 +1030,7 @@ namespace Lab6_Ajedrez
             }
             Ficha ficha = null;
             // Se comprueba en direccion derecha
-            while(auxCol <8 && ficha == null)
+            while(auxCol < 7 && ficha == null)
             {
                 ficha = tablero.posiciones[fila, auxCol + 1].ficha;
                 auxCol++;
@@ -982,7 +1048,7 @@ namespace Lab6_Ajedrez
             }
             // Se comprueba en direccion izquieda
             auxCol = col;
-            while (auxCol >= 0 && ficha == null)
+            while (auxCol > 0 && ficha == null)
             {
                 ficha = tablero.posiciones[fila, auxCol - 1].ficha;
                 auxCol--;
@@ -1017,7 +1083,7 @@ namespace Lab6_Ajedrez
             }
             Ficha ficha = null;
             // Se comprueba hacia arriba
-            while (auxFila >= 0 && ficha == null)
+            while (auxFila > 0 && ficha == null)
             {
                 ficha = tablero.posiciones[auxFila -1, col].ficha;
                 auxFila--;
@@ -1035,7 +1101,7 @@ namespace Lab6_Ajedrez
             }
             // Se comprueba hacia abajo
             auxFila = fila;
-            while (auxFila < 8 && ficha == null)
+            while (auxFila < 7 && ficha == null)
             {
                 ficha = tablero.posiciones[auxFila + 1, col].ficha;
                 auxFila++;
@@ -1105,22 +1171,23 @@ namespace Lab6_Ajedrez
                 }
                 // examina si puede enrocar con torre a la "derecha"
                 int relPos = Math.Abs(col - colTorreDer);
+                int cont = incr;
                 Ficha ficha = null;
-                while(relPos >= 0 && ficha == null)
+                while(relPos > 0 && ficha == null)
                 {
                     relPos--;
-                    ficha = tablero.posiciones[fila, col + incr].ficha;
+                    ficha = tablero.posiciones[fila, col + cont].ficha;
                     // Evalua si el rey es atacado mientras enroca, en tal caso no puede
                     // enrocar
-                    if(quedaEnJaque(fila, col + incr, tablero))
+                    if(relPos > 0 && quedaEnJaque(fila, col + cont, tablero))
                     {
                         relPos = -1;
                     }
-                    incr += incr;
+                    cont += incr;
                 }
                 // Si logra encontrar todas las casillas vacias hasta la torre se puede 
                 // enrocar
-                if(relPos < 0 && ficha.tipo == TipoFicha.Torre)
+                if(relPos == 0 && ficha.tipo == TipoFicha.Torre)
                 {
                     // El enroque es posible solo si la torre no ha movido
                     Torre torreEnr = (Torre)ficha;
@@ -1136,23 +1203,24 @@ namespace Lab6_Ajedrez
                 }
                 // examina si puede enrocar con torre a la "izquierda"
                 incr = (-1) * incr;
+                cont = incr;
                 relPos = Math.Abs(col - colTorreIzq);
                 ficha = null;
-                while (relPos >= 0 && ficha == null)
+                while (relPos > 0 && ficha == null)
                 {
                     relPos--;
-                    ficha = tablero.posiciones[fila, col + incr].ficha;
+                    ficha = tablero.posiciones[fila, col + cont].ficha;
                     // Evalua si el rey es atacado mientras enroca, en tal caso no puede
                     // enrocar
-                    if (quedaEnJaque(fila, col + incr, tablero))
+                    if (relPos > 0 && quedaEnJaque(fila, col + cont, tablero))
                     {
                         relPos = -1;
                     }
-                    incr += incr;
+                    cont += incr;
                 }
                 // Si logra encontrar todas las casillas vacias hasta la torre se puede 
                 // enrocar
-                if (relPos < 0 && ficha.tipo == TipoFicha.Torre)
+                if (relPos == 0 && ficha.tipo == TipoFicha.Torre)
                 {
                     // El enroque es posible solo si la torre no ha movido
                     Torre torreEnr = (Torre)ficha;
@@ -1174,17 +1242,7 @@ namespace Lab6_Ajedrez
         public override void encontrarMovimientos(Tablero tablero)
         {
             // Se limpia la lista si se encuentra llena para luego actualizar
-            int n = movimientos.Count;
-            if (n > 0)
-            {
-                this.movimientos.Clear();
-            }
-            // Se limpia la lista de enroues si se encuentra llena para luego actualizar
-            n = movEnroque.Count;
-            if (n > 0)
-            {
-                this.movEnroque.Clear();
-            }
+            limpiarMovimientos();
             // variables auxiliares
             int fila = posicion.fila;
             int col = posicion.columna;
@@ -1196,6 +1254,42 @@ namespace Lab6_Ajedrez
             Ficha ficha;
             // Se comprueba si se puede enrocar
             posibilidadEnroque(fila, col, tablero);
+            // Se comprueba si puede mover lateralmente a la derecha o iquierda
+            if(col >0 && col < 7)
+            {
+                // derecha
+                ficha = tablero.posiciones[fila, col + 1].ficha;
+                // se chequea que al mover no quede en jaque
+                if(!quedaEnJaque(fila, col + 1, tablero))
+                {
+                    // Casilla esta vacia
+                    if (ficha == null)
+                    {
+                        base.agregarMov(fila, col +1);
+                    }
+                    // Captura ficha contraria
+                    else if (ficha.color == colFichaCont)
+                    {
+                        base.agregarMov(fila, col +1);
+                    }
+                }
+                // izquierda
+                ficha = tablero.posiciones[fila, col - 1].ficha;
+                // se chequea que al mover no quede en jaque
+                if (!quedaEnJaque(fila, col - 1, tablero))
+                {
+                    // Casilla esta vacia
+                    if (ficha == null)
+                    {
+                        base.agregarMov(fila, col - 1);
+                    }
+                    // Captura ficha contraria
+                    else if (ficha.color == colFichaCont)
+                    {
+                        base.agregarMov(fila, col - 1);
+                    }
+                }
+            }
             // Se comprueba si existe posibilidad de mover hacia arriba o en diagonal arriba
             if(fila > 0)
             {
@@ -1209,6 +1303,7 @@ namespace Lab6_Ajedrez
                     {
                         base.agregarMov(fila - 1, col);
                     }
+                    // Captura ficha contraria
                     else if(ficha.color == colFichaCont)
                     {
                         base.agregarMov(fila - 1, col);
@@ -1226,6 +1321,7 @@ namespace Lab6_Ajedrez
                         {
                             base.agregarMov(fila - 1, col -1);
                         }
+                        // Captura ficha contraria
                         else if (ficha.color == colFichaCont)
                         {
                             base.agregarMov(fila - 1, col - 1);
@@ -1243,6 +1339,7 @@ namespace Lab6_Ajedrez
                         {
                             base.agregarMov(fila - 1, col +1);
                         }
+                        // captura ficha contraria
                         else if (ficha.color == colFichaCont)
                         {
                             base.agregarMov(fila - 1, col +1);
