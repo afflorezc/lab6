@@ -19,9 +19,13 @@ namespace Lab6_Ajedrez
         bool juegoActivo = false;
         Jugador jugadorUno;
         Jugador jugadorDos;
+        FormNombres formNombres;
+        FormSettings formSettings;
         Color turnoActual = Color.Blanco;
         PosicionMatriz fichaSeleccionada;
         PictureBox[,] matPictureBox;
+        public String nombreJugUno { get; set; }
+        public String nombreJugDos { get; set; }
 
         /*
          * Método de inicialización del objeto de tipo formulario principal.
@@ -37,8 +41,8 @@ namespace Lab6_Ajedrez
             {
                 cargarPuntajes();
             }
-            
-
+            formNombres = new FormNombres(this);
+            formSettings = new FormSettings();
         }
 
         /*
@@ -160,7 +164,12 @@ namespace Lab6_Ajedrez
             // manera aleatoria)
             if (true) //result == DialogResult.OK)
             {
-                // se activa un juego nuevo
+                // pide los nombres de los jugadores
+                formNombres.ShowDialog();
+                jugadorUno= new Jugador(nombreJugUno);
+                jugadorDos = new Jugador(nombreJugDos);
+                // se activa un juego
+
                 juegoActivo = true;
                 jug1Label.Text = $"Jugador 1: {jugadorUno.nombre}";
                 jug2Label.Text = $"Jugador 2: {jugadorDos.nombre}";
@@ -197,6 +206,11 @@ namespace Lab6_Ajedrez
                 }
             }
 
+        }
+
+        private void confBtn_Click(object sender, EventArgs e)
+        {
+            formSettings.ShowDialog();
         }
     }
 

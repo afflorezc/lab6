@@ -1,0 +1,12 @@
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\bin\Debug\Lab6 Ajedrez.exe.config
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\bin\Debug\Lab6 Ajedrez.exe
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\bin\Debug\Lab6 Ajedrez.pdb
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6 Ajedrez.csproj.AssemblyReference.cache
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6_Ajedrez.JuegoPpal.resources
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6_Ajedrez.Properties.Resources.resources
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6 Ajedrez.csproj.GenerateResource.cache
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6 Ajedrez.csproj.CoreCompileInputs.cache
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6 Ajedrez.exe
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6 Ajedrez.pdb
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6_Ajedrez.FormNombres.resources
+C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6_Ajedrez.FormSettings.resources
