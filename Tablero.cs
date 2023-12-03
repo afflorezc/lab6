@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +29,28 @@ namespace Lab6_Ajedrez
         {
             this.color = color;
             this.marcada = false;
+        }
+        /*
+         * Método que hace una copia de una casilla de modo que no se referencie y el nuevo
+         * objeto pueda ser cambiado sin afectar el original
+         */
+        public void copiarCasilla(Casilla casilla)
+        {
+            this.color = casilla.color;
+            this.marcada = casilla.marcada;
+            this.imagen = casilla.imagen;
+            
+            if (casilla.ficha != null)
+            {
+                Ficha ficha = new Ficha(casilla.ficha.color, casilla.ficha.posicion);
+                casilla.ficha.copiarFicha(ref ficha);
+                this.ficha = ficha;
+            }
+            else
+            {
+                this.ficha = null;
+            }
+
         }
         /*
          * Método que asigna la imagen apropiada para un peon en la casilla
@@ -467,12 +490,17 @@ namespace Lab6_Ajedrez
     internal class Tablero
     {
         public Casilla[,] posiciones = new Casilla[8,8];
+        public PosicionMatriz posReyBlanco;
+        public PosicionMatriz posReyNegro;
         /*
          * El objeto Tablero se inicializa con la posición de las fichas en el tablero 
          * correspondiente a una nueva partida
          */
         public Tablero()
         {
+            // Se inicializan las posiciones de los reyes
+            posReyBlanco = new PosicionMatriz(7, 4);
+            posReyNegro = new PosicionMatriz(0, 4);
             for(int i = 0; i < posiciones.GetLength(0); i++)
             {
                 for(int j=0; j < posiciones.GetLength(1); j++)
@@ -570,6 +598,25 @@ namespace Lab6_Ajedrez
             }
         }
 
+        /*
+         * Método que hace una copia de la disposición actual del tablero de modo que se
+         * crea un objeto nuevo y no una referencia a la posicion actual del tablero, para
+         * poder hacer cambios en la copia sin que se afecte al tablero original
+         */
+        public void copiarTablero(Tablero tablero)
+        {
+            for (int i = 0; i < tablero.posiciones.GetLength(0); i++)
+            {
+                for (int j = 0; j < tablero.posiciones.GetLength(1); j++)
+                {
+                    Casilla casAux = tablero.posiciones[i, j];
+                    Casilla casilla = new Casilla(casAux.color);
+                    // Se realiza copia para que sea un nuevo objeto sin referenciar al original
+                    casilla.copiarCasilla(casAux);
+                    this.posiciones[i, j] = casilla;
+                }
+            }
+        }
 
     }
 }
