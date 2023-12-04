@@ -14,17 +14,19 @@ namespace Lab6_Ajedrez
 {
     public partial class FormSettings : Form
     {
+        JuegoPpal juego;
         MediaPlayer reproductor = new MediaPlayer();
         String path = Directory.GetCurrentDirectory() + "\\" + "music" + "\\";
         String cancionReproduciendo;
         double volumenAux = 0.5;
         double volumen = 0.5;
+        double volumenSound = 0.5;
 
-
-        public FormSettings()
+        public FormSettings(JuegoPpal juego)
         {
             InitializeComponent();
             reproductor.MediaEnded += new EventHandler(reproductor_MediaEnded);
+            this.juego = juego;
         }
 
 
@@ -57,14 +59,15 @@ namespace Lab6_Ajedrez
 
             Uri URL = new Uri(cancion); 
             reproductor.Open(URL);
+            establecerVolumenMusica();
             reproductor.Play();
 
-            establecerVolumenMusica();
         }
 
 
         /*
          * evento click de buttonComfirmar
+         * actualiza los volumenes,
          * obtiene el valor actual del comboBoxMusic que contiene las cnaciones
          * valida si se selecciono alguna cancion y si esta no esta sonando ya, si
          * no esta sonando la reproduce.
@@ -74,17 +77,22 @@ namespace Lab6_Ajedrez
         private void buttonComfirmar_Click(object sender, EventArgs e)
         {
             this.volumenAux = this.volumen;
+            this.volumenSound = double.Parse(trackBarVolumeSound.Value+"")/100;
+            this.juego.operBas.volumen = this.volumenSound;
 
             String cancion = comboBoxMusic.Text;
-            if (cancion == "waltz of the flowers" || cancion == "nocturne op 9 no 2" || cancion == "dance of the sugar plum fairy" || cancion == "liebestraume no 3 in a flat major")
+            if (cancion == "waltz of the flowers" || cancion == "nocturne op 9 no 2" || 
+                cancion == "dance of the sugar plum fairy" || cancion == "liebestraume no 3 in a flat major" ||
+                cancion == "french suite no 4 in e flat major")
             {
                 if (cancion != cancionReproduciendo)
                 {
-
+                    
                     ponerMusica(cancion);
                 }
             }
-            else{ 
+            else{
+                this.cancionReproduciendo = "Ninguna";
                 reproductor.Close();
             }
             this.Close();
@@ -99,7 +107,9 @@ namespace Lab6_Ajedrez
         private void trackBarVolume_ValueChanged(object sender, EventArgs e)
         {
             double volumen = double.Parse(""+trackBarVolume.Value);
-            this.volumen = volumen / 100; // se divide entre 100 ya que el volumen va de 0 a 1 mientras que el trackBar va de 1 a 100
+            // se divide entre 100 ya que el volumen va de 0 a 1 mientras que el
+            // trackBar va de 1 a 100
+            this.volumen = volumen / 100; 
             establecerVolumenMusica();
         }
 
@@ -114,7 +124,10 @@ namespace Lab6_Ajedrez
             this.Close();
             comboBoxMusic.Text = cancionReproduciendo;
             this.volumen = this.volumenAux;
-            trackBarVolume.Value = int.Parse(""+(volumenAux * 100)); // como el volumen del trackBar va de 1 a 100 y el de volumen aux va de 0 a 1 lo multiplica por 100
+            // como el volumen del trackBar va de 1 a 100 y el de volumen aux va de 0 a 1
+            // lo multiplica por 100
+            trackBarVolume.Value = int.Parse(""+(volumenAux * 100));
+            trackBarVolumeSound.Value = int.Parse(""+(volumenSound * 100));
             establecerVolumenMusica();
         }
 
@@ -126,6 +139,7 @@ namespace Lab6_Ajedrez
         void reproductor_MediaEnded(object sender, EventArgs e) {
             ponerMusica(this.cancionReproduciendo);
         }
+
 
     }
 }

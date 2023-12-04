@@ -30,6 +30,8 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.trackBarVolumeSound = new System.Windows.Forms.TrackBar();
             this.label5 = new System.Windows.Forms.Label();
             this.trackBarVolume = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,14 +43,12 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxMusic = new System.Windows.Forms.ComboBox();
-            this.trackBarVolumeSound = new System.Windows.Forms.TrackBar();
-            this.label6 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumeSound)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumeSound)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -95,6 +95,27 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(642, 92);
             this.tableLayoutPanel4.TabIndex = 5;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(91, 59);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(139, 20);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "volumen sonidos:";
+            // 
+            // trackBarVolumeSound
+            // 
+            this.trackBarVolumeSound.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.trackBarVolumeSound.Location = new System.Drawing.Point(374, 49);
+            this.trackBarVolumeSound.Maximum = 100;
+            this.trackBarVolumeSound.Name = "trackBarVolumeSound";
+            this.trackBarVolumeSound.Size = new System.Drawing.Size(215, 40);
+            this.trackBarVolumeSound.TabIndex = 3;
+            this.trackBarVolumeSound.Value = 50;
             // 
             // label5
             // 
@@ -234,32 +255,12 @@
             "waltz of the flowers",
             "nocturne op 9 no 2",
             "dance of the sugar plum fairy",
-            "liebestraume no 3 in a flat major"});
+            "liebestraume no 3 in a flat major",
+            "french suite no 4 in e flat major"});
             this.comboBoxMusic.Location = new System.Drawing.Point(360, 34);
             this.comboBoxMusic.Name = "comboBoxMusic";
             this.comboBoxMusic.Size = new System.Drawing.Size(243, 24);
             this.comboBoxMusic.TabIndex = 1;
-            // 
-            // trackBarVolumeSound
-            // 
-            this.trackBarVolumeSound.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.trackBarVolumeSound.Location = new System.Drawing.Point(374, 49);
-            this.trackBarVolumeSound.Maximum = 100;
-            this.trackBarVolumeSound.Name = "trackBarVolumeSound";
-            this.trackBarVolumeSound.Size = new System.Drawing.Size(215, 40);
-            this.trackBarVolumeSound.TabIndex = 3;
-            this.trackBarVolumeSound.Value = 50;
-            // 
-            // label6
-            // 
-            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(91, 59);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(139, 20);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "volumen sonidos:";
             // 
             // FormSettings
             // 
@@ -273,11 +274,11 @@
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumeSound)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumeSound)).EndInit();
             this.ResumeLayout(false);
 
         }

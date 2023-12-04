@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace Lab6_Ajedrez
 {
@@ -13,8 +15,12 @@ namespace Lab6_Ajedrez
      * poder registrar y cargar la información sobre los mayores puntajes y los respectivos
      * jugadores que los han alcanzado
      */
-    internal class OperBasicas
+    public class OperBasicas
     {
+        Random rnd = new Random();
+        String pathSound = System.IO.Directory.GetCurrentDirectory() + "\\" + "sound" + "\\";
+        MediaPlayer sonidos = new MediaPlayer();
+        public double volumen = 0.5;
         /*
         * Método que crea un archivo con el nombre indicado en su paramétro
         * y lo guarda en el directorio actual. Si el procedimiento es exitoso devuelve 
@@ -269,5 +275,74 @@ namespace Lab6_Ajedrez
             // titulo: Mensaje sobre la ventana (nombre), mensaje: información
             DialogResult result = MessageBox.Show(mensaje, titulo, buttons);
         }
+
+        /*
+         * metodo repSonido
+         * recibe como parametri String sonido que es el nombre del archivo que se reproducira
+         * concatena ek nombre con la ruta, asigna el volumen y reproduce el sonido
+         */
+        void reproSonido(String sonido, String extension) { 
+            sonido = pathSound + sonido + extension;
+
+            Uri uri = new Uri(sonido);
+            this.sonidos.Open(uri);
+            this.sonidos.Volume = this.volumen;
+            this.sonidos.Play();
+        }
+
+        /*
+         * metodo moverFichaSonido
+         * genera un numero aleatorio entre 1 y 8 para reproducir 1 de los 8
+         * sonidos posibles de mover ficha
+         */
+
+       void moverFichaSonido() { 
+            int numSomido = rnd.Next(1,9);
+
+            reproSonido("chess_"+numSomido, ".wav");
+        }
+
+        /*
+         * metodo moverFichaSonido
+         * genera un numero aleatorio entre 1 y 2 para reproducir uno de los dos 
+         * sonidos de capturar ficha
+         */
+        void capturarFichaSonido()
+        {
+            int numSomido = rnd.Next(1, 3);
+
+            reproSonido("chess_capture_" + numSomido, ".wav");
+        }
+
+        /*
+         * metodo errorSonido
+         * reproduce el sonido de error
+         */
+        void errorSonido()
+        { 
+            reproSonido("error_2", ".wav");
+        }
+
+        /*
+         * metodo errorSonido
+         * reproduce el sonido de jaque
+         */
+        void jaqueSonido()
+        {
+            reproSonido("error_1",".wav");
+        }
+
+        /*
+         * metodo moverFichaSonido
+         * genera un numero aleatorio entre 1 y 2 para reproducir uno de los dos 
+         * sonidos de capturar ficha
+         */
+        void victoriaSonido()
+        {
+            int numSomido = rnd.Next(1, 4);
+
+            reproSonido("chess_win_" + numSomido, ".mp3");
+        }
+
     }
 }
