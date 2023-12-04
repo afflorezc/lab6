@@ -94,13 +94,9 @@ namespace Lab6_Ajedrez
          * tablero que registra el juego. Se retorna true en caso exitoso, en caso contrario
          * false
          */
-        public bool mover(ParOrdenado movimiento, Tablero tablero)
+        public virtual void mover(ParOrdenado movimiento, Tablero tablero)
         {
-           if(!esMovimientoVal(movimiento))
-            {
-                return false;
-            }
-            else
+           if(esMovimientoVal(movimiento))
             {
                 int filSal = movimiento.x.fila;
                 int colSal = movimiento.x.columna;
@@ -136,7 +132,6 @@ namespace Lab6_Ajedrez
                         tablero.posiciones[fila, col].asignarImagen();
                     }
                 }
-                return true;
                
             }
         }
@@ -616,46 +611,53 @@ namespace Lab6_Ajedrez
                 if (fila < 7)
                 {
                     ficha = tablero.posiciones[fila + 1, col + 2].ficha;
-                    y = new PosicionMatriz(fila + 1, col + 2);
-                    mov = new ParOrdenado(x, y);
-                    bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
-                    if (!jaqueAlMover)
+                    if (ficha == null || ficha.color == colFichaCont)
                     {
-                        if (ficha != null && ficha.color == colFichaCont)
+                        y = new PosicionMatriz(fila + 1, col + 2);
+                        mov = new ParOrdenado(x, y);
+                        bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
+                        if (!jaqueAlMover)
                         {
-                            // Si la casilla esta llena, puede mover y capturar en caso que
-                            // la ficha sea del color contrario
-                            base.agregarMov(fila + 1, col + 2);
+                            if (ficha != null && ficha.color == colFichaCont)
+                            {
+                                // Si la casilla esta llena, puede mover y capturar en caso que
+                                // la ficha sea del color contrario
+                                base.agregarMov(fila + 1, col + 2);
+                            }
+                            else if (ficha == null)
+                            {
+                                // la casilla esta vacia se puede mover
+                                base.agregarMov(fila + 1, col + 2);
+                            }
                         }
-                        else if(ficha == null)
-                        {
-                            // la casilla esta vacia se puede mover
-                            base.agregarMov(fila + 1, col + 2);
-                        }
-                    }
+                    }   
                    
                 }
                 // mover luego hacia arriba
                 if (fila > 0)
                 {
                     ficha = tablero.posiciones[fila - 1, col + 2].ficha;
-                    y = new PosicionMatriz(fila + 1, col + 2);
-                    mov = new ParOrdenado(x, y);
-                    bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
-                    if (!jaqueAlMover)
+                    if (ficha == null || ficha.color == colFichaCont)
                     {
-                        if (ficha != null && ficha.color == colFichaCont)
+                        y = new PosicionMatriz(fila - 1, col + 2);
+                        mov = new ParOrdenado(x, y);
+                        bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
+                        if (!jaqueAlMover)
                         {
-                            // Si la casilla esta llena, puede mover y capturar en caso que
-                            // la ficha sea del color contrario
-                            base.agregarMov(fila - 1, col + 2);
-                        }
-                        else if (ficha == null)
-                        {
-                            // la casilla esta vacia se puede mover
-                            base.agregarMov(fila - 1, col + 2);
+                            if (ficha != null && ficha.color == colFichaCont)
+                            {
+                                // Si la casilla esta llena, puede mover y capturar en caso que
+                                // la ficha sea del color contrario
+                                base.agregarMov(fila - 1, col + 2);
+                            }
+                            else if (ficha == null)
+                            {
+                                // la casilla esta vacia se puede mover
+                                base.agregarMov(fila - 1, col + 2);
+                            }
                         }
                     }
+                        
                    
                 }
             }
@@ -681,45 +683,54 @@ namespace Lab6_Ajedrez
                 if (fila < 7)
                 {
                     ficha = tablero.posiciones[fila + 1, col - 2].ficha;
-                    y = new PosicionMatriz(fila + 1, col - 2);
-                    mov = new ParOrdenado(x, y);
-                    bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
-                    if (!jaqueAlMover)
+                    
+                    if (ficha == null || ficha.color == colFichaCont)
                     {
-                        if (ficha != null && ficha.color == colFichaCont)
+                        y = new PosicionMatriz(fila + 1, col - 2);
+                        mov = new ParOrdenado(x, y);
+                        bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
+                        if (!jaqueAlMover)
                         {
-                            // Si la casilla esta llena, puede mover y capturar en caso que
-                            // la ficha sea del color contrario
-                            base.agregarMov(fila + 1, col - 2);
-                        }
-                        else if (ficha == null)
-                        {
-                            // la casilla esta vacia se puede mover
-                            base.agregarMov(fila + 1, col - 2);
+                            if (ficha != null && ficha.color == colFichaCont)
+                            {
+                                // Si la casilla esta llena, puede mover y capturar en caso que
+                                // la ficha sea del color contrario
+                                base.agregarMov(fila + 1, col - 2);
+                            }
+                            else if (ficha == null)
+                            {
+                                // la casilla esta vacia se puede mover
+                                base.agregarMov(fila + 1, col - 2);
+                            }
                         }
                     }
+                        
                 }
                 // mover luego hacia arriba
                 if (fila > 0)
                 {
                     ficha = tablero.posiciones[fila - 1, col - 2].ficha;
-                    y = new PosicionMatriz(fila - 1, col - 2);
-                    mov = new ParOrdenado(x, y);
-                    bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
-                    if (!jaqueAlMover)
+                    if (ficha == null || ficha.color == colFichaCont)
                     {
-                        if (ficha != null && ficha.color == colFichaCont)
+                        y = new PosicionMatriz(fila - 1, col - 2);
+                        mov = new ParOrdenado(x, y);
+                        bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
+                        if (!jaqueAlMover)
                         {
-                            // Si la casilla esta llena, puede mover y capturar en caso que
-                            // la ficha sea del color contrario
-                            base.agregarMov(fila - 1, col - 2);
-                        }
-                        else if (ficha == null)
-                        {
-                            // la casilla esta vacia se puede mover
-                            base.agregarMov(fila - 1, col - 2);
+                            if (ficha != null && ficha.color == colFichaCont)
+                            {
+                                // Si la casilla esta llena, puede mover y capturar en caso que
+                                // la ficha sea del color contrario
+                                base.agregarMov(fila - 1, col - 2);
+                            }
+                            else if (ficha == null)
+                            {
+                                // la casilla esta vacia se puede mover
+                                base.agregarMov(fila - 1, col - 2);
+                            }
                         }
                     }
+                        
                 }
             }
         }
@@ -744,44 +755,52 @@ namespace Lab6_Ajedrez
                 if (col > 0)
                 {
                     ficha = tablero.posiciones[fila + 2 , col -1].ficha;
-                    y = new PosicionMatriz(fila + 2, col - 1);
-                    mov = new ParOrdenado(x, y);
-                    bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
-                    if (!jaqueAlMover)
+                    if(ficha == null || ficha.color == colFichaCont)
                     {
-                        if (ficha != null && ficha.color == colFichaCont)
+                        y = new PosicionMatriz(fila + 2, col - 1);
+                        mov = new ParOrdenado(x, y);
+                        bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
+                        if (!jaqueAlMover)
                         {
-                            // Si la casilla esta llena, puede mover y capturar en caso que
-                            // la ficha sea del color contrario
-                            base.agregarMov(fila + 2, col - 1);
-                        }
-                        else if (ficha == null)
-                        {
-                            // la casilla esta vacia se puede mover
-                            base.agregarMov(fila + 2, col - 1);
+                            if (ficha != null && ficha.color == colFichaCont)
+                            {
+                                // Si la casilla esta llena, puede mover y capturar en caso que
+                                // la ficha sea del color contrario
+                                base.agregarMov(fila + 2, col - 1);
+                            }
+                            else if (ficha == null)
+                            {
+                                // la casilla esta vacia se puede mover
+                                base.agregarMov(fila + 2, col - 1);
+                            }
                         }
                     }
+                    
                 }
                 // mover luego hacia la derecha
                 if (col < 7)
                 {
                     ficha = tablero.posiciones[fila + 2, col +1].ficha;
-                    y = new PosicionMatriz(fila + 2, col + 1);
-                    mov = new ParOrdenado(x, y);
-                    bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
-                    if (!jaqueAlMover)
+                    if (ficha == null || ficha.color == colFichaCont)
                     {
-                        if (ficha != null && ficha.color == colFichaCont)
+                        y = new PosicionMatriz(fila + 2, col + 1);
+                        mov = new ParOrdenado(x, y);
+                        bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
+                        if (!jaqueAlMover)
                         {
-                            // Si la casilla esta llena, puede mover y capturar en caso que
-                            // la ficha sea del color contrario
-                            base.agregarMov(fila + 2, col + 1);
+                            if (ficha != null && ficha.color == colFichaCont)
+                            {
+                                // Si la casilla esta llena, puede mover y capturar en caso que
+                                // la ficha sea del color contrario
+                                base.agregarMov(fila + 2, col + 1);
+                            }
+                            else if (ficha == null)
+                            {
+                                // la casilla esta vacia se puede mover
+                                base.agregarMov(fila + 2, col + 1);
+                            }
                         }
-                        else if (ficha == null)
-                        {
-                            // la casilla esta vacia se puede mover
-                            base.agregarMov(fila + 2, col + 1);
-                        }
+                       
                     }
                 }
             }
@@ -808,45 +827,53 @@ namespace Lab6_Ajedrez
                 if (col > 0)
                 {
                     ficha = tablero.posiciones[fila - 2, col - 1].ficha;
-                    y = new PosicionMatriz(fila - 2, col - 1);
-                    mov = new ParOrdenado(x, y);
-                    bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
-                    if (!jaqueAlMover)
+                    if (ficha == null || ficha.color == colFichaCont)
                     {
-                        if (ficha != null && ficha.color == colFichaCont)
+                        y = new PosicionMatriz(fila - 2, col - 1);
+                        mov = new ParOrdenado(x, y);
+                        bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
+                        if (!jaqueAlMover)
                         {
-                            // Si la casilla esta llena, puede mover y capturar en caso que
-                            // la ficha sea del color contrario
-                            base.agregarMov(fila - 2, col - 1);
-                        }
-                        else if (ficha == null)
-                        {
-                            // la casilla esta vacia se puede mover
-                            base.agregarMov(fila - 2, col - 1);
+                            if (ficha != null && ficha.color == colFichaCont)
+                            {
+                                // Si la casilla esta llena, puede mover y capturar en caso que
+                                // la ficha sea del color contrario
+                                base.agregarMov(fila - 2, col - 1);
+                            }
+                            else if (ficha == null)
+                            {
+                                // la casilla esta vacia se puede mover
+                                base.agregarMov(fila - 2, col - 1);
+                            }
                         }
                     }
+                        
                 }
                 // mover luego hacia la derecha
                 if (col < 7)
                 {
                     ficha = tablero.posiciones[fila - 2, col + 1].ficha;
-                    y = new PosicionMatriz(fila - 2, col + 1);
-                    mov = new ParOrdenado(x, y);
-                    bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
-                    if (!jaqueAlMover)
+                    if (ficha == null || ficha.color == colFichaCont)
                     {
-                        if (ficha != null && ficha.color == colFichaCont)
+                        y = new PosicionMatriz(fila - 2, col + 1);
+                        mov = new ParOrdenado(x, y);
+                        bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
+                        if (!jaqueAlMover)
                         {
-                            // Si la casilla esta llena, puede mover y capturar en caso que
-                            // la ficha sea del color contrario
-                            base.agregarMov(fila - 2, col + 1);
-                        }
-                        else if (ficha == null)
-                        {
-                            // la casilla esta vacia se puede mover
-                            base.agregarMov(fila - 2, col + 1);
+                            if (ficha != null && ficha.color == colFichaCont)
+                            {
+                                // Si la casilla esta llena, puede mover y capturar en caso que
+                                // la ficha sea del color contrario
+                                base.agregarMov(fila - 2, col + 1);
+                            }
+                            else if (ficha == null)
+                            {
+                                // la casilla esta vacia se puede mover
+                                base.agregarMov(fila - 2, col + 1);
+                            }
                         }
                     }
+                        
                 }
             }
         }
@@ -1196,7 +1223,7 @@ namespace Lab6_Ajedrez
                 {
                     for (int i = 0; i < n; i++)
                     {
-                        ParOrdenado parValido = movimientos[i];
+                        ParOrdenado parValido = movEnroque[i];
                         if (parValido.esIgual(movimiento))
                         {
                             return true;
@@ -1206,6 +1233,84 @@ namespace Lab6_Ajedrez
             }
             // Si ha llegado hasta aqui es porque el movimiento no se encuentra en ninguna lista
             return false;
+        }
+        /*
+         * Método que evalua si un movimiento dado esta en la lista de enroques
+         */
+        public bool enListaEnroques(ParOrdenado movimiento)
+        {
+            int n = this.movEnroque.Count;
+            if(n > 0)
+            {
+                for(int i=0; i<n; i++)
+                {
+                    ParOrdenado enroque = this.movEnroque[i];
+                    if (movimiento.esIgual(enroque))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /*
+         * Sobrecarga del metodo de mover ficha, que evalua si el movimiento es de enroque
+         * o no
+         */
+        public override void mover(ParOrdenado movimiento, Tablero tablero)
+        {
+            base.mover(movimiento, tablero);
+            // Actualiza informacion del rey para el juego
+            if (!this.haMovido)
+            {
+                this.haMovido = true;
+            }
+            // Actualiza posicion del Rey en el objeto tablero
+            if(this.color == Color.Blanco)
+            {
+                tablero.posReyBlanco = this.posicion;
+            }
+            else
+            {
+                tablero.posReyNegro = this.posicion;
+            }
+            // Si la jugada es de enroque, se debe mover la torre apropiada
+            if (enListaEnroques(movimiento))
+            {
+                int fila = 7;
+                if(this.color == Color.Negro)
+                {
+                    fila = 0;
+                }
+                // variables auxiliares para manejar la torre
+                int col = this.posicion.columna;
+                Torre torreEnr;
+                ParOrdenado mov;
+                PosicionMatriz posTorreEnrocada;
+                // Se identifica que torre fue la participante del enroque
+                if (col < 4)
+                {
+                    torreEnr = (Torre)tablero.posiciones[fila, 0].ficha;
+                    posTorreEnrocada = new PosicionMatriz(fila, col + 1);
+                }
+                else
+                {
+                    posTorreEnrocada = new PosicionMatriz(fila, col - 1);
+                    torreEnr = (Torre)tablero.posiciones[fila, 7].ficha;
+                }
+                // Se hace el movimiento de la torre respectiva
+                PosicionMatriz posTorre = torreEnr.posicion;
+                // se actualizan los datos en el tablero de Juego para hacer 
+                // seguimiento
+                tablero.torreEnrocada = posTorre;
+                tablero.enroque = true;
+                mov = new ParOrdenado(posTorre, posTorreEnrocada);
+                torreEnr.movimientos.Add(mov);
+                torreEnr.mover(mov, tablero);
+                // Se limpia la lista de movimientos de la torre
+                torreEnr.limpiarMovimientos();
+            }
         }
 
         /*

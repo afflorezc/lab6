@@ -18,8 +18,7 @@ namespace Lab6_Ajedrez
     public class OperBasicas
     {
         Random rnd = new Random();
-        String pathSound = System.IO.Directory.GetCurrentDirectory() + "\\" + "sound" + "\\";
-        MediaPlayer sonidos = new MediaPlayer();
+        String pathSound = System.IO.Directory.GetCurrentDirectory() + "\\" + "sounds" + "\\";
         public double volumen = 0.5;
         /*
         * Método que crea un archivo con el nombre indicado en su paramétro
@@ -281,13 +280,14 @@ namespace Lab6_Ajedrez
          * recibe como parametri String sonido que es el nombre del archivo que se reproducira
          * concatena ek nombre con la ruta, asigna el volumen y reproduce el sonido
          */
-        void reproSonido(String sonido, String extension) { 
-            sonido = pathSound + sonido + extension;
+        void reproSonido(String sonido, String extension) {
 
+            MediaPlayer sonidos = new MediaPlayer();
+            sonido = pathSound + sonido + extension;
             Uri uri = new Uri(sonido);
-            this.sonidos.Open(uri);
-            this.sonidos.Volume = this.volumen;
-            this.sonidos.Play();
+            sonidos.Open(uri);
+            sonidos.Volume = this.volumen;
+            sonidos.Play();
         }
 
         /*
@@ -310,9 +310,9 @@ namespace Lab6_Ajedrez
          */
         public void capturarFichaSonido()
         {
-            int numSomido = rnd.Next(1, 3);
+            int numSonido = rnd.Next(1, 3);
 
-            reproSonido("chess_capture_" + numSomido, ".wav");
+            reproSonido("chess_capture_" + numSonido, ".wav");
         }
 
         /*

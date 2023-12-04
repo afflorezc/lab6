@@ -401,31 +401,43 @@ namespace Lab6_Ajedrez
                     if (ficha.esMovimientoVal(mov))
                     {
                         // Si se mueve de manera exitosa se dibujan todas las celdas
-                        if(ficha.mover(mov, tableroJuego))
+                        ficha.mover(mov, tableroJuego);
+                        // Se reasigna la imagen a la casilla donde estaba la ficha
+                        int f = fichaSeleccionada.fila;
+                        int c = fichaSeleccionada.columna;
+                        asignarPicture(f, c, tableroJuego.posiciones[f, c].imagen);
+                        // Si el movimiento fue de enroque se reasigna la imagen de la
+                        // posicion inicial de la torre
+                        if (tableroJuego.enroque)
                         {
-                            // Se reasigna la imagen a la casilla donde estaba la ficha
-                            int f = fichaSeleccionada.fila;
-                            int c = fichaSeleccionada.columna;
+                            f = tableroJuego.torreEnrocada.fila;
+                            c = tableroJuego.torreEnrocada.columna;
                             asignarPicture(f, c, tableroJuego.posiciones[f, c].imagen);
-                            desmarcarCasillas(fila, col);
-                            // Se limpia la lista de movimientos de la ficha movida
-                            tableroJuego.posiciones[fila, col].ficha.limpiarMovimientos();
-                            // Se evalua si se da un jaque
-                            evaluarJaque();
-                            // Se cambia el turno
-                            if(turnoActual == Color.Blanco)
-                            {
-                                turnoActual = Color.Negro;
-                            }
-                            else
-                            {
-                                turnoActual = Color.Blanco;
-                            }
-                            // Ya no existen fichas seleccionadas
-                            fichaSeleccionada.fila = -1;
-                            fichaSeleccionada.columna = -1;
-                            // activar sonido mover ficha 
+                            // Se actualizan las variables
+                            tableroJuego.torreEnrocada.fila = -1;
+                            tableroJuego.torreEnrocada.columna = -1;
+                            tableroJuego.enroque = false;
                         }
+                        // Se desmarcan las casillas
+                        desmarcarCasillas(fila, col);
+                        // Se limpia la lista de movimientos de la ficha movida
+                        tableroJuego.posiciones[fila, col].ficha.limpiarMovimientos();
+                        // Se evalua si se da un jaque
+                        evaluarJaque();
+                        // Se cambia el turno
+                        if (turnoActual == Color.Blanco)
+                        {
+                            turnoActual = Color.Negro;
+                        }
+                        else
+                        {
+                            turnoActual = Color.Blanco;
+                        }
+                        // Ya no existen fichas seleccionadas
+                        fichaSeleccionada.fila = -1;
+                        fichaSeleccionada.columna = -1;
+                        // activar sonido mover ficha 
+                        this.operBas.moverFichaSonido();
 
                     }
                     else
@@ -458,6 +470,7 @@ namespace Lab6_Ajedrez
                         else
                         {
                             // activar sonido error
+                            this.operBas.errorSonido();
                         }
                     }
                     

@@ -492,6 +492,8 @@ namespace Lab6_Ajedrez
         public Casilla[,] posiciones = new Casilla[8,8];
         public PosicionMatriz posReyBlanco;
         public PosicionMatriz posReyNegro;
+        public PosicionMatriz torreEnrocada;
+        public bool enroque;
         public Ficha ultFichaCap;
         /*
          * El objeto Tablero se inicializa con la posición de las fichas en el tablero 
@@ -502,7 +504,9 @@ namespace Lab6_Ajedrez
             // Se inicializan las posiciones de los reyes
             posReyBlanco = new PosicionMatriz(7, 4);
             posReyNegro = new PosicionMatriz(0, 4);
+            torreEnrocada = new PosicionMatriz(-1, -1);
             ultFichaCap = null;
+            enroque = false;
             for(int i = 0; i < posiciones.GetLength(0); i++)
             {
                 for(int j=0; j < posiciones.GetLength(1); j++)
@@ -607,6 +611,12 @@ namespace Lab6_Ajedrez
          */
         public void copiarTablero(Tablero tablero)
         {
+            // Copia las propiedades de seguimiento
+            this.posReyBlanco = tablero.posReyBlanco;
+            this.posReyNegro = tablero.posReyNegro;
+            this.torreEnrocada = tablero.torreEnrocada;
+            this.enroque = tablero.enroque;
+            this.ultFichaCap = tablero.ultFichaCap;
             for (int i = 0; i < tablero.posiciones.GetLength(0); i++)
             {
                 for (int j = 0; j < tablero.posiciones.GetLength(1); j++)
