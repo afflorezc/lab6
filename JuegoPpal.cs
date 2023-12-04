@@ -7,25 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Windows.Media;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Lab6_Ajedrez
 {
     public partial class JuegoPpal : Form
     {
+        MediaPlayer reproductorEfectos;
         OperBasicas operBas;
         const String nombreArchivo = "Puntajes.txt";
         Tablero tableroJuego;
         bool juegoActivo = false;
-        Jugador jugadorUno;
-        Jugador jugadorDos;
+        public Jugador jugadorUno;
+        public Jugador jugadorDos;
         FormNombres formNombres;
         FormSettings formSettings;
         Color turnoActual = Color.Blanco;
         PosicionMatriz fichaSeleccionada;
         PictureBox[,] matPictureBox;
-        public String nombreJugUno { get; set; }
-        public String nombreJugDos { get; set; }
 
         /*
          * Método de inicialización del objeto de tipo formulario principal.
@@ -35,6 +36,7 @@ namespace Lab6_Ajedrez
         {
             //Método generado automaticamente
             InitializeComponent();
+            reproductorEfectos = new MediaPlayer();
             // se identifica si existen puntajes registrados y se cargan
             operBas = new OperBasicas();
             if (operBas.existenArchivos())
@@ -167,19 +169,15 @@ namespace Lab6_Ajedrez
             {
                 // pide los nombres de los jugadores
                 formNombres.ShowDialog();
-                jugadorUno= new Jugador(nombreJugUno);
-                jugadorDos = new Jugador(nombreJugDos);
                 // se activa un juego
-
                 juegoActivo = true;
-                jug1Label.Text = $"Jugador 1: TestPlayer1";//{jugadorUno.nombre}";
-                jug2Label.Text = $"Jugador 2: TestPlayer2";//{jugadorDos.nombre}";
-                Jug1Puntaje.Text = $"Puntaje: 0";//{jugadorUno.puntajePartida}";
-                jug2Puntaje.Text = $"Puntaje: 0";//{jugadorDos.puntajePartida}";
+                jug1Label.Text = $"Jugador 1: {jugadorUno.nombre}";
+                jug2Label.Text = $"Jugador 2: {jugadorDos.nombre}";
+                Jug1Puntaje.Text = $"Puntaje: {jugadorUno.puntajePartida}";
+                jug2Puntaje.Text = $"Puntaje: {jugadorDos.puntajePartida}";
                 // Se inicializa la ficha seleccionad en matriz con un valor equivalente al
                 // "vacio" (no fichas seleccionadas)
                 fichaSeleccionada = new PosicionMatriz(-1, -1);
-                
                 tableroJuego = new Tablero();
                 pintarTablero();
             }
@@ -209,7 +207,6 @@ namespace Lab6_Ajedrez
 
         }
 
-<<<<<<< HEAD
         /*
         * Método que hace una asignación de una PictureBox a la matriz de imagenes en la
         * posición establecida
@@ -363,6 +360,12 @@ namespace Lab6_Ajedrez
                 // posicion valida
                 if (fichaSeleccionada.fila > -1 && fichaSeleccionada.columna > -1)
                 {
+                    // Si la selecion actual es la misma ficha previamente
+                    // seleccionada, no se debe hacer nada
+                    if(fila == fichaSeleccionada.fila && col == fichaSeleccionada.columna)
+                    {
+                        return;
+                    }
                     // Si ya existe una ficha seleccionada se intenta mover a la posición
                     // señalada, si no se puede mover se deselecciona y limpia su lista
                     // de movimientos posibles
@@ -394,6 +397,7 @@ namespace Lab6_Ajedrez
                             // Ya no existen fichas seleccionadas
                             fichaSeleccionada.fila = -1;
                             fichaSeleccionada.columna = -1;
+                            // activar sonido mover ficha 
                         }
 
                     }
@@ -422,6 +426,11 @@ namespace Lab6_Ajedrez
                             tableroJuego.posiciones[fila, col].asignarImagen();
                             asignarPicture(fila, col, tableroJuego.posiciones[fila, col].imagen);
                             marcarCasillas(fila, col);
+                            // activar sonido seleccionar ficha
+                        }
+                        else
+                        {
+                            // activar sonido error
                         }
                     }
                     
@@ -449,12 +458,10 @@ namespace Lab6_Ajedrez
 
         }
 
-=======
         private void confBtn_Click(object sender, EventArgs e)
         {
             formSettings.ShowDialog();
         }
->>>>>>> 10566be3e646b029a3c88a216ff9698b0c56af1c
     }
 
  

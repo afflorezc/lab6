@@ -99,7 +99,9 @@ namespace Lab6_Ajedrez
         private void trackBarVolume_ValueChanged(object sender, EventArgs e)
         {
             double volumen = double.Parse(""+trackBarVolume.Value);
-            this.volumen = volumen / 100; // se divide entre 100 ya que el volumen va de 0 a 1 mientras que el trackBar va de 1 a 100
+            // se divide entre 100 ya que el volumen va de 0 a 1 mientras que el
+            // trackBar va de 1 a 100
+            this.volumen = volumen / 100; 
             establecerVolumenMusica();
         }
 
@@ -114,7 +116,9 @@ namespace Lab6_Ajedrez
             this.Close();
             comboBoxMusic.Text = cancionReproduciendo;
             this.volumen = this.volumenAux;
-            trackBarVolume.Value = int.Parse(""+(volumenAux * 100)); // como el volumen del trackBar va de 1 a 100 y el de volumen aux va de 0 a 1 lo multiplica por 100
+            // como el volumen del trackBar va de 1 a 100 y el de volumen aux va de 0 a 1
+            // lo multiplica por 100
+            trackBarVolume.Value = int.Parse(""+(volumenAux * 100)); 
             establecerVolumenMusica();
         }
 

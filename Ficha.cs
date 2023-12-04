@@ -379,6 +379,10 @@ namespace Lab6_Ajedrez
                 ficha = tablero.posiciones[fila, col].ficha;
                 y = new PosicionMatriz(fila, col);
                 mov = new ParOrdenado(x, y);
+                if(ficha != null && ficha.color == this.color)
+                {
+                    return;
+                }
                 bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
                 if(ficha == null && !jaqueAlMover)
                 {
@@ -420,6 +424,10 @@ namespace Lab6_Ajedrez
             {
                 col--;
                 ficha = tablero.posiciones[fila, col].ficha;
+                if (ficha != null && ficha.color == this.color)
+                {
+                    return;
+                }
                 y = new PosicionMatriz(fila, col);
                 mov = new ParOrdenado(x, y);
                 bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
@@ -463,6 +471,10 @@ namespace Lab6_Ajedrez
             {
                 fila--;
                 ficha = tablero.posiciones[fila, col].ficha;
+                if (ficha != null && ficha.color == this.color)
+                {
+                    return;
+                }
                 y = new PosicionMatriz(fila, col);
                 mov = new ParOrdenado(x, y);
                 bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);
@@ -505,6 +517,10 @@ namespace Lab6_Ajedrez
             {
                 fila++;
                 ficha = tablero.posiciones[fila, col].ficha;
+                if (ficha != null && ficha.color == this.color)
+                {
+                    return;
+                }
                 y = new PosicionMatriz(fila, col);
                 mov = new ParOrdenado(x, y);
                 bool jaqueAlMover = enJaqueTrasMover(tabRef, mov);

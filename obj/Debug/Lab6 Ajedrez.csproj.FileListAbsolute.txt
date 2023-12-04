@@ -23,3 +23,5 @@ C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6 Ajedrez.pd
 C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6_Ajedrez.FormNombres.resources
 C:\Users\thomy\source\repos\Laboratorio_6_ajedrez\lab6\obj\Debug\Lab6_Ajedrez.FormSettings.resources
 >>>>>>> 10566be3e646b029a3c88a216ff9698b0c56af1c
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\obj\Debug\Lab6_Ajedrez.FormNombres.resources
+C:\Users\admiin\Documents\Proyectos\UdeA\Sem 2023-2\Logica y Representacion 1\Laboratorios\Lab6\Lab6 Ajedrez\obj\Debug\Lab6_Ajedrez.FormSettings.resources
