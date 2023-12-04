@@ -339,7 +339,33 @@ namespace Lab6_Ajedrez
             }
 
         }
-
+        /*
+         * Método que evalua si el rey contrario queda en jaque luego de una jugada
+         */
+        public void evaluarJaque()
+        {
+            PosicionMatriz posRey;
+            if(turnoActual == Color.Blanco)
+            {
+                posRey = tableroJuego.posReyNegro;
+            }
+            else
+            {
+                posRey = tableroJuego.posReyBlanco;
+            }
+            Rey rey = (Rey) tableroJuego.posiciones[posRey.fila, posRey.columna].ficha;
+            if(rey.quedaEnJaque(posRey.fila, posRey.columna, tableroJuego))
+            {
+                rey.enJaque = true;
+                if (!rey.estadoEnJaque)
+                {
+                    rey.estadoEnJaque = true;
+                }
+                tableroJuego.posiciones[posRey.fila, posRey.columna].asignarImagen();
+                Image imagen = tableroJuego.posiciones[posRey.fila, posRey.columna].imagen;
+                asignarPicture(posRey.fila, posRey.columna, imagen);
+            }
+        }
         /*
        * Método que evalua cuando se hace click sobre un objeto del tipo PictureBox
        * del tablero de juego, es decir, cuando se selecciona una ficha del juego con
@@ -385,6 +411,8 @@ namespace Lab6_Ajedrez
                             desmarcarCasillas(fila, col);
                             // Se limpia la lista de movimientos de la ficha movida
                             tableroJuego.posiciones[fila, col].ficha.limpiarMovimientos();
+                            // Se evalua si se da un jaque
+                            evaluarJaque();
                             // Se cambia el turno
                             if(turnoActual == Color.Blanco)
                             {
