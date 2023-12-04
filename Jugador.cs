@@ -12,7 +12,7 @@ namespace Lab6_Ajedrez
      * máximo alcanzado si se trata de un jugador anterior, el puntaje actual y los datos
      * de su desempeño: partidas ganadas, partidas perdidas, partidas en tablas
      */
-    internal class Jugador
+    public class Jugador
     {
         public String nombre { get; set; }
         public int maxPuntaje { get; set; }
@@ -29,6 +29,7 @@ namespace Lab6_Ajedrez
         public Jugador(String nombre)
         {
             this.nombre = nombre;
+            this.puntajePartida = 0;
         }
     }
 }

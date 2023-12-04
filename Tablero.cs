@@ -350,30 +350,30 @@ namespace Lab6_Ajedrez
                 case Color.Blanco:
                     if (this.color == Color.Blanco)
                     {
-                        if (!this.marcada)
+                        if (!this.marcada && !rey.enJaque)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._23a;
                         }
-                        else if(!rey.enJaque)
+                        else if(!rey.enJaque && this.marcada)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._23b;
                         }
-                        else
+                        else if(rey.enJaque)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._23c;
                         }
                     }
                     else
                     {
-                        if (!this.marcada)
+                        if (!this.marcada && !rey.enJaque)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._24a;
                         }
-                        else if(!rey.enJaque)
+                        else if (!rey.enJaque && this.marcada)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._24b;
                         }
-                        else
+                        else if (rey.enJaque)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._24c;
                         }
@@ -382,30 +382,30 @@ namespace Lab6_Ajedrez
                 case Color.Negro:
                     if (this.color == Color.Blanco)
                     {
-                        if (!this.marcada)
+                        if (!this.marcada && !rey.enJaque)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._25a;
                         }
-                        else if(!rey.enJaque)
+                        else if (!rey.enJaque && this.marcada)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._25b;
                         }
-                        else
+                        else if (rey.enJaque)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._25c;
                         }
                     }
                     else
                     {
-                        if (!this.marcada)
+                        if (!this.marcada && !rey.enJaque)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._26a;
                         }
-                        else if (!rey.enJaque) 
+                        else if (!rey.enJaque && this.marcada)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._26b;
                         }
-                        else
+                        else if (rey.enJaque)
                         {
                             this.imagen = global::Lab6_Ajedrez.Properties.Resources._26c;
                         }
@@ -492,6 +492,9 @@ namespace Lab6_Ajedrez
         public Casilla[,] posiciones = new Casilla[8,8];
         public PosicionMatriz posReyBlanco;
         public PosicionMatriz posReyNegro;
+        public PosicionMatriz torreEnrocada;
+        public bool enroque;
+        public Ficha ultFichaCap;
         /*
          * El objeto Tablero se inicializa con la posición de las fichas en el tablero 
          * correspondiente a una nueva partida
@@ -501,6 +504,9 @@ namespace Lab6_Ajedrez
             // Se inicializan las posiciones de los reyes
             posReyBlanco = new PosicionMatriz(7, 4);
             posReyNegro = new PosicionMatriz(0, 4);
+            torreEnrocada = new PosicionMatriz(-1, -1);
+            ultFichaCap = null;
+            enroque = false;
             for(int i = 0; i < posiciones.GetLength(0); i++)
             {
                 for(int j=0; j < posiciones.GetLength(1); j++)
@@ -605,6 +611,12 @@ namespace Lab6_Ajedrez
          */
         public void copiarTablero(Tablero tablero)
         {
+            // Copia las propiedades de seguimiento
+            this.posReyBlanco = tablero.posReyBlanco;
+            this.posReyNegro = tablero.posReyNegro;
+            this.torreEnrocada = tablero.torreEnrocada;
+            this.enroque = tablero.enroque;
+            this.ultFichaCap = tablero.ultFichaCap;
             for (int i = 0; i < tablero.posiciones.GetLength(0); i++)
             {
                 for (int j = 0; j < tablero.posiciones.GetLength(1); j++)

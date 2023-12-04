@@ -60,10 +60,11 @@
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(624, 381);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(832, 469);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -79,9 +80,9 @@
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 86F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(343, 381);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(457, 469);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -96,12 +97,13 @@
             this.tableLayoutPanel3.Controls.Add(this.jug2Label, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.Jug1Puntaje, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.jug2Puntaje, 1, 1);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(337, 64);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(449, 78);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // jug1Label
@@ -110,9 +112,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.jug1Label.AutoSize = true;
-            this.jug1Label.Location = new System.Drawing.Point(3, 0);
+            this.jug1Label.Location = new System.Drawing.Point(4, 0);
+            this.jug1Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.jug1Label.Name = "jug1Label";
-            this.jug1Label.Size = new System.Drawing.Size(162, 32);
+            this.jug1Label.Size = new System.Drawing.Size(216, 39);
             this.jug1Label.TabIndex = 0;
             this.jug1Label.Text = "Jugador 1:";
             this.jug1Label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -123,9 +126,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.jug2Label.AutoSize = true;
-            this.jug2Label.Location = new System.Drawing.Point(171, 0);
+            this.jug2Label.Location = new System.Drawing.Point(228, 0);
+            this.jug2Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.jug2Label.Name = "jug2Label";
-            this.jug2Label.Size = new System.Drawing.Size(163, 32);
+            this.jug2Label.Size = new System.Drawing.Size(217, 39);
             this.jug2Label.TabIndex = 1;
             this.jug2Label.Text = "Jugador:";
             this.jug2Label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -136,9 +140,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Jug1Puntaje.AutoSize = true;
-            this.Jug1Puntaje.Location = new System.Drawing.Point(3, 32);
+            this.Jug1Puntaje.Location = new System.Drawing.Point(4, 39);
+            this.Jug1Puntaje.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Jug1Puntaje.Name = "Jug1Puntaje";
-            this.Jug1Puntaje.Size = new System.Drawing.Size(162, 32);
+            this.Jug1Puntaje.Size = new System.Drawing.Size(216, 39);
             this.Jug1Puntaje.TabIndex = 2;
             this.Jug1Puntaje.Text = "Puntaje: ";
             this.Jug1Puntaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -149,9 +154,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.jug2Puntaje.AutoSize = true;
-            this.jug2Puntaje.Location = new System.Drawing.Point(171, 32);
+            this.jug2Puntaje.Location = new System.Drawing.Point(228, 39);
+            this.jug2Puntaje.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.jug2Puntaje.Name = "jug2Puntaje";
-            this.jug2Puntaje.Size = new System.Drawing.Size(163, 32);
+            this.jug2Puntaje.Size = new System.Drawing.Size(217, 39);
             this.jug2Puntaje.TabIndex = 3;
             this.jug2Puntaje.Text = "Puntaje:";
             this.jug2Puntaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -170,7 +176,8 @@
             this.tableroPpal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableroPpal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableroPpal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableroPpal.Location = new System.Drawing.Point(3, 73);
+            this.tableroPpal.Location = new System.Drawing.Point(4, 90);
+            this.tableroPpal.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableroPpal.Name = "tableroPpal";
             this.tableroPpal.RowCount = 8;
             this.tableroPpal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
@@ -181,7 +188,7 @@
             this.tableroPpal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableroPpal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableroPpal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableroPpal.Size = new System.Drawing.Size(337, 305);
+            this.tableroPpal.Size = new System.Drawing.Size(449, 375);
             this.tableroPpal.TabIndex = 1;
             // 
             // tableLayoutPanel5
@@ -193,12 +200,13 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel6, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.puntajesGridView, 0, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(346, 3);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(461, 4);
+            this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(275, 375);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(367, 461);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
             // tableLayoutPanel6
@@ -211,19 +219,21 @@
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.Controls.Add(this.nuevoJuegoBtn, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.confBtn, 1, 0);
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 228);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(4, 280);
+            this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(269, 144);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(359, 177);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // nuevoJuegoBtn
             // 
             this.nuevoJuegoBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.nuevoJuegoBtn.Location = new System.Drawing.Point(24, 60);
+            this.nuevoJuegoBtn.Location = new System.Drawing.Point(32, 74);
+            this.nuevoJuegoBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nuevoJuegoBtn.Name = "nuevoJuegoBtn";
-            this.nuevoJuegoBtn.Size = new System.Drawing.Size(86, 23);
+            this.nuevoJuegoBtn.Size = new System.Drawing.Size(115, 28);
             this.nuevoJuegoBtn.TabIndex = 0;
             this.nuevoJuegoBtn.Text = "Nuevo Juego";
             this.nuevoJuegoBtn.UseVisualStyleBackColor = true;
@@ -232,12 +242,14 @@
             // confBtn
             // 
             this.confBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.confBtn.Location = new System.Drawing.Point(161, 60);
+            this.confBtn.Location = new System.Drawing.Point(215, 74);
+            this.confBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.confBtn.Name = "confBtn";
-            this.confBtn.Size = new System.Drawing.Size(81, 23);
+            this.confBtn.Size = new System.Drawing.Size(108, 28);
             this.confBtn.TabIndex = 1;
             this.confBtn.Text = "Configuracion";
             this.confBtn.UseVisualStyleBackColor = true;
+            this.confBtn.Click += new System.EventHandler(this.confBtn_Click);
             // 
             // puntajesGridView
             // 
@@ -245,19 +257,22 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.puntajesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.puntajesGridView.Location = new System.Drawing.Point(3, 3);
+            this.puntajesGridView.Location = new System.Drawing.Point(4, 4);
+            this.puntajesGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.puntajesGridView.Name = "puntajesGridView";
-            this.puntajesGridView.Size = new System.Drawing.Size(269, 219);
+            this.puntajesGridView.RowHeadersWidth = 51;
+            this.puntajesGridView.Size = new System.Drawing.Size(359, 268);
             this.puntajesGridView.TabIndex = 1;
             // 
             // JuegoPpal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 381);
+            this.ClientSize = new System.Drawing.Size(829, 459);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.MaximumSize = new System.Drawing.Size(640, 420);
-            this.MinimumSize = new System.Drawing.Size(640, 420);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaximumSize = new System.Drawing.Size(847, 506);
+            this.MinimumSize = new System.Drawing.Size(847, 506);
             this.Name = "JuegoPpal";
             this.Text = "El Ajedrez";
             this.tableLayoutPanel1.ResumeLayout(false);
