@@ -296,7 +296,8 @@ namespace Lab6_Ajedrez
          * sonidos posibles de mover ficha
          */
 
-       void moverFichaSonido() { 
+       public void moverFichaSonido() 
+        { 
             int numSomido = rnd.Next(1,9);
 
             reproSonido("chess_"+numSomido, ".wav");
@@ -307,7 +308,7 @@ namespace Lab6_Ajedrez
          * genera un numero aleatorio entre 1 y 2 para reproducir uno de los dos 
          * sonidos de capturar ficha
          */
-        void capturarFichaSonido()
+        public void capturarFichaSonido()
         {
             int numSomido = rnd.Next(1, 3);
 
@@ -318,7 +319,7 @@ namespace Lab6_Ajedrez
          * metodo errorSonido
          * reproduce el sonido de error
          */
-        void errorSonido()
+        public void errorSonido()
         { 
             reproSonido("error_2", ".wav");
         }
@@ -327,7 +328,7 @@ namespace Lab6_Ajedrez
          * metodo errorSonido
          * reproduce el sonido de jaque
          */
-        void jaqueSonido()
+        public void jaqueSonido()
         {
             reproSonido("error_1",".wav");
         }
@@ -337,7 +338,7 @@ namespace Lab6_Ajedrez
          * genera un numero aleatorio entre 1 y 2 para reproducir uno de los dos 
          * sonidos de capturar ficha
          */
-        void victoriaSonido()
+        public void victoriaSonido()
         {
             int numSomido = rnd.Next(1, 4);
 
